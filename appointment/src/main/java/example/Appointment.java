@@ -10,8 +10,8 @@ public class Appointment{
     private Service service;
     private LocalDate date;
     private int startHour;
-    private int duration;
-    private boolean isOnline;
+    private int duration; // hour
+    private boolean isOnline; // false - meet in person, true - meet in online
     private String location;
     private String notes;
 
@@ -30,7 +30,6 @@ public class Appointment{
         this.notes = notes;
     }
 
-    // Getters
     public int getId() { return id; }
     public Client getClient() { return client; }
     public Professional getProfessional() { return professional; }
@@ -41,8 +40,7 @@ public class Appointment{
     public boolean isOnline() { return isOnline; }
     public String getLocation() { return location; }
     public String getNotes() { return notes; }
-
-    // Setters 
+ 
     public void setNotes(String notes) { this.notes = notes; }
     public void setLocation(String location) { this.location = location; }
     public void setOnline(boolean online) { isOnline = online; }
@@ -61,16 +59,11 @@ public class Appointment{
         );
     }
 
-    @Override
+    @Override         // Appointment-iin object-toi tentsuu uguig shalgana
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Appointment that = (Appointment) o;
         return id == that.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 }

@@ -53,10 +53,6 @@ public class AppointmentSystem {
 
     }
 
-    private void checkHourValid(int hour) {
-
-    }
-
     // Тухайн хэрэглэгчийн бүх захиалгыг буцаана
     public List<Appointment> getClientAppointments(Client client) {
 
