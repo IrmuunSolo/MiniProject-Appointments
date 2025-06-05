@@ -1,4 +1,5 @@
-import java.io.Serializable;
+package example;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -7,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class AppointmentSystem implements Serializable {
+public class AppointmentSystem {
     private Map<Professional, Map<LocalDate, boolean[]>> prosAvailability;
     private List<Appointment> appointments;
     private static final int WORKING_HOUR_START = 9;

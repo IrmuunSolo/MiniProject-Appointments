@@ -1,3 +1,5 @@
+package example;
+
 public class Client {
 
     private int id;

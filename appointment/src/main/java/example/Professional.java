@@ -1,4 +1,5 @@
-import java.io.Serializable;
+package example;
+
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;

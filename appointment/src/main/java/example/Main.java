@@ -1,3 +1,5 @@
+package example;
+
 import java.time.LocalDate;
 
 // run command: java -cp target/appointment-1.0-SNAPSHOT.jar Main

@@ -1,8 +1,9 @@
-import java.io.Serializable;
+package example;
+
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Appointment implements Serializable {
+public class Appointment{
     private int id;
     private Client client;
     private Professional professional;
