@@ -1,5 +1,9 @@
 package example;
 
+/**
+ * Person эцэг класс. Person үндсэн мэдээллийг хадгална.
+ */
+
 public class Person {
     protected int id;
     protected String name;

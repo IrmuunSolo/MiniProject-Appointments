@@ -2,6 +2,13 @@ package example;
 
 import java.time.LocalDate;
 
+/**
+ * Классын тодорхойлолт энд бичигдэнэ.
+ * 
+ * @author Л.Ирмүүн B232270021
+ * @version 1.0
+ */
+
 public class Appointment{
     private int id;
     private Client client;
@@ -9,13 +16,17 @@ public class Appointment{
     private Service service;
     private LocalDate date;
     private int startHour;
-    private int durationHours; // hour
+    private int durationHours = 1; // hour
     private boolean isOnline; // false - meet in person, true - meet in online
+    private boolean payByHour;
     private String notes;
 
     public Appointment(int id, Client client, Professional professional, Service service, 
-                      LocalDate date, int startHour, int duration, boolean isOnline, 
-                        String notes) {
+                      LocalDate date, int startHour, int durationHours, boolean isOnline, 
+                      boolean payByHour,  String notes) {
+        if (durationHours < 1) {
+            throw new IllegalArgumentException("Duration must be at least 1 hour");
+        }
         this.id = id;
         this.client = client;
         this.professional = professional;
@@ -24,6 +35,7 @@ public class Appointment{
         this.startHour = startHour;
         this.durationHours = durationHours;
         this.isOnline = isOnline;
+        this.payByHour = payByHour;
         this.notes = notes;
     }
 
@@ -34,7 +46,7 @@ public class Appointment{
     public Service getService() { return service; }
     public LocalDate getDate() { return date; }
     public int getStartHour() { return startHour; }
-    public int getDuration() { return durationHours; }
+    public int getDurationHours() { return durationHours; }
     public boolean isOnline() { return isOnline; }
     public String getLocation() {
         return isOnline ? "Online" : professional.getCompany().getAddress();
@@ -45,10 +57,10 @@ public class Appointment{
     public void setOnline(boolean isOnline) { this.isOnline = isOnline; }
 
     // төлбөрийг тооцох функцүүд
-    public double calculateFeeByDuration() {
-        return professional.getPricePerHour() * durationHours;
-    }
-    public double calculateFeeByPayment(){
+    public double calculateFee() {
+        if(payByHour){
+            return durationHours * professional.getPricePerHour();
+        } else 
         return professional.getPricePerHour();
     }
 

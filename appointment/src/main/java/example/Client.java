@@ -1,5 +1,9 @@
 package example;
 
+/**
+ * Үйлчилгээ авагч, хэрэглэгчийг илэрхийлэх класс
+ */
+
 public class Client extends Person{
 
     public Client(int id, String name, String phone, String email) {

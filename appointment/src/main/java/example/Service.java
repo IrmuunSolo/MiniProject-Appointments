@@ -4,6 +4,10 @@ import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Үйлчилгээний мэдээллийг хадгалах класс
+ */
+
 public class Service {
 
     private int id;
@@ -40,6 +44,12 @@ public class Service {
         return defaultDurationHours; 
     }
 
+    /**
+     * Мэргэжилтнийг нэмнэ
+     * @param professional Мэргэжилтэн
+     * @throws IllegalArgumentException professional null байвал
+     */
+
     public String addProfessional(Professional pro) {
         if (pro == null) {
             throw new IllegalArgumentException("Professional cannot be null");
@@ -51,18 +61,24 @@ public class Service {
         return pro.getName() + " added professional to service"; // changed to english
     }
 
-    public String removeProfessional(Professional pro) {
+    /**
+     * Мэргэжилтнийг бүртгэлээс хасах
+     * @param professional Мэргэжилтэн
+     * @throws IllegalArgumentException professional бүртгэлгүй байвал
+     * @return мэргэжилтийн хассан бол true, чадаагүй бол false буцаана
+     */
+    public boolean removeProfessional(Professional pro) {
         if (pro == null) {
             throw new IllegalArgumentException("Professional cannot be null");
         }
         if (!professionals.contains(pro)) {
-            return pro.getName() + " is not associated with this service";
+            return false;
         }
         if (professionals.size() <= 1) {
             throw new IllegalStateException("Service must have at least one professional");
         }
         professionals.remove(pro);
-        return pro.getName() + " removed professional from service"; // changed to english
+        return true;
     }
 
     public boolean isOfferedBy(Professional professional) {
