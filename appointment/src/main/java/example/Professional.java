@@ -1,43 +1,31 @@
 package example;
 
-import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
-public class Professional { // үйлчилгээ үзүүлэгч
-    private int id;
-    private String name;
+;
+public class Professional extends Person { // үйлчилгээ үзүүлэгч
     private String specialty;
     private double rating;
     private double pricePerHour;
+    private Company company;
 
-    public Professional(int id, String name, String specialty, double rating, double pricePerHour) {
-        this.id = id;
-        this.name = name;
+    public Professional(int id, String name, String phone, String email,  String specialty, double rating, double price, Company company) {
+        super(id, name, phone, email);
         this.specialty = specialty;
         this.rating = rating;
         this.pricePerHour = pricePerHour;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
+        this.company = company;
     }
 
     public String getSpecialty() {
         return specialty;
     }
-
     public double getRating() {
         return rating;
     }
-
     public double getPricePerHour() {
         return pricePerHour;
+    }
+    public Company getCompany() { 
+        return company; 
     }
 
     @Override
@@ -47,7 +35,8 @@ public class Professional { // үйлчилгээ үзүүлэгч
                 ", name='" + name + '\'' +
                 ", specialty='" + specialty + '\'' +
                 ", rating=" + rating +
-                ", pricePerHour=" + pricePerHour +
+                ", price=" + pricePerHour +
                 '}';
     }
+
 }
