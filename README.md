@@ -1,200 +1,172 @@
-# 4-р өдөр: Мини төслийн загварчлал ба хөгжүүлэлтийн эхлэл
+# 5-р өдөр: Мини төслийн хөгжүүлэлт - Тест бичих (TDD)
 
-Зорилго: Мини төслийн классын загварыг боловсруулж, хөгжүүлэлтийг эхлүүлэх.
+Зорилго: Мини төсөлд unit тест бичиж, Test-Driven Development (TDD) зарчмыг хэрэглэх.
 
-## Odoo.com-ийн модулиудыг судалгаа
+## Биегүй бичигдсэн үлдсэн функцуудыг гүйцээж бичив
 
-**Appointment App (Odoo-д суурилсан)**
+**AppointmentSystem class:**
 
-Odoo-ын онцлог:
+1. Мэргэжилтний тодорхой өдрийн бүх боломжтой цагийг жагсаалтаар буцаана.
 
-- Appointment модуль нь Odoo-ын стандарт form, tree, kanban харагдацуудыг ашигладаг.
-- appointment.invite модель нь Odoo-ын календар системтэй интеграцдэг.
-- Имэйл урилга илгээхэд Odoo-ын mail модультэй холбогддог.
-- Зарим цагийн төрөлд төлбөр нэхэмжлэхтэй холбоотой бол account модультэй интеграцдэг.
-- ir.rule ашиглан хандах эрхийг зохицуулдаг.
-
-Odoo-ын бусад модулиудтай харилцууд:
-
-- CRM: Захиалгатай холбоотой худалдан авагчид CRM-д бүртгэгддэг
-- Project: Зарим цагийн захиалгууд нь тодорхой төслүүдтэй холбогддог.
-- Website: Цагийн хуваарийг вэбсайтаар захиалах боломжтой
-
-## Төслийн загварчлал:
-
-3-р өдрийн шинжилгээгээ ашиглан классын загварын боловсруулалт.
-
-![UML diagram](/images/AppointmentUML.drawio.png)
-
-**1. Инкапсуляци (Encapsulation)**
-
-Өгөгдөл болон үйлдлүүдийг нэг нэгжид багтааж, гаднаас шууд хандахаас хамгаална.
-
-Жишээ:
-
-- Appointment, Company, Service, Professional зэрэг классуудад private эсвэл protected гишүүдийг ашиглаж, getter/setter-ээр хандалтыг зохицуулсан.
+    Авах утга (Мэргэжилтэн, тухайн өдөр)\
+    Буцаах утга - Тухайн өдрийн боломжтой цагийн жагсаалт
 
 ```
-private int id;
-private String name;
-public int getId() { return id; }
+   public List<Integer> getAvailableHours(Professional professional, LocalDate date) {
+        validateProfessional(professional);
+        
+        ...
+
+        boolean[] hours = professionalSchedule.get(date);
+        for (int i = 0; i < hours.length; i++) {
+            if (!hours[i]) {
+                availableHours.add(WORKING_HOUR_START + i);
+            }
+        }
+        return availableHours;
+    }
 ```
 
-**2. Удамшил (Inheritance)**
+2. Захиалсан уулзалт, цагийг цуцлана
 
-Нэг классын шинж чанар, үйлдлийг өөр класст өвлүүлэн ашиглах.
-
-Жишээ:
-
-Person → Client, Professional хоёр унаган класс байна:
+    Авах утга - Авсан цаг\
+    Буцаах утга - void
 
 ```
-public class Client extends Person
-public class Professional extends Person
+    public void cancelAppointment(Appointment appointment) {
+        Professional professional = appointment.getProfessional();
+        validateProfessional(professional);
+        
+        LocalDate date = appointment.getDate();
+        int startHour = appointment.getStartHour();
+        int durationHours = appointment.getDurationHours();
+
+        ...
+
+        appointments.remove(appointment);
+    }
 ```
 
-Ийм байдлаар id, name, phone, email зэрэг давхардсан шинж чанарыг дахин бичилгүйгээр ашиглаж байгаа нь кодын давтагдлыг бууруулсан.
+3. Оруулсан цагийг ажлын цагт багтаж байгааг шалгана
 
-**3. Полиморфизм (Polymorphism)**
-
-Нэг ижил нэртэй функц олон төрлийн хэрэгжилттэй байх (override/overload).
-
-Жишээ:
-
-toString() функц нь Person, Client, Professional, Appointment, Company, Service зэрэг олон класст override хийгдсэн.
+    Авах утга - int цаг\
+    Буцаах утга - Ажлын цагт багтах бол true, үгүй бол false
 
 ```
-@Override
-public String toString() {
-    return "Client{" + ...;
-}
+    private void validateHour(int hour) {
+        if (hour < WORKING_HOUR_START || hour > WORKING_HOUR_END) {
+            return false;
+        }
+
+        return true;
+    }
 ```
 
-## Сайжруулсан үндсэн классууд ба аттрибут, функцийн тайлбар:
+4. Тухайн хэрэглэгчийн бүх захиалгыг буцаана
 
-
-**1. Professional – Үйлчилгээ үзүүлэгч**
-
-Атрибутууд:
+    Авах утга - хэрэглэгч\
+    Буцаах утга - Хэрэглэгчийн захиалсан цагийн жагсаалт
 
 ```
-id – Үйлчилгээ үзүүлэгчийн ID (Person superclass-аас өвлөсөн)
-name – Нэр (Person superclass-аас өвлөсөн)
-phone, email – Холбоо барих мэдээлэл (Person superclass-аас)
-specialty – Мэргэшил (ж: "Сэтгэл зүйч")
-rating – Үнэлгээ (0–5 хооронд)
-pricePerHour – Цагийн үнэ (₮)
-company – Харьяалагддаг байгууллага (Company обьект)
+    public List<Appointment> getClientAppointments(Client client) {
+        List<Appointment> result = new ArrayList<>();
+        for (Appointment appt : appointments) {
+            if (appt.getClient().equals(client)) {
+                result.add(appt);
+            }
+        }
+        return result;
+    }
 ```
 
+5.  Мэргэжилтний бүх захиалгыг буцаана
 
-**2. Service – Үйлчилгээ**
-
-Атрибутууд:
-
-```
-id – Үйлчилгээний ID
-name – Нэр (жишээ нь: "Сэтгэл зүйн зөвлөгөө")
-description – Үйлчилгээний дэлгэрэнгүй тайлбар
-professionals – Уг үйлчилгээг үзүүлж чадах мэргэжилтнүүдийн жагсаалт (List<Professional>)
-defaultDurationHours – Үндсэн үйлчилгээний үргэлжлэх хугацаа (цаг)
-```
-
-Функцууд:
-
+    Авах утга - мэргэжилтэн\
+    Буцаах утга - Мэргэжилтны захиалгатай цагийн жагсаалт
 
 ```
-addProfessional(pro) – Мэргэжилтэн нэмэх
-removeProfessional(pro) – Мэргэжилтэн хасах
-isOfferedBy(pro) – Уг мэргэжилтэн энэ үйлчилгээг үзүүлдэг эсэх
+    public List<Appointment> getProfessionalAppointments(Professional professional) {
+        validateProfessional(professional);
+        
+        List<Appointment> result = new ArrayList<>();
+        for (Appointment appt : appointments) {
+            if (appt.getProfessional().equals(professional)) {
+                result.add(appt);
+            }
+        }
+        return result;
+    } 
 ```
 
-**3. Client – Хэрэглэгч**
+## Unit Test
 
-Person классаас удамшсан.
+**Тест бүрийн тайлбар**
 
-Атрибутууд:
+### AppointmentTest class
 
-```
-id, name, phone, email – Person superclass-аас
-```
+1. testCreateAppointment():
 
-**4. Appointment – Захиалга**
+- Захиалга амжилттай үүсэж байгаа эсэхийг шалгана
+- Бүх аттрибутад зөв утга оноогдсон эсэхийг шалгана
 
-Атрибутууд:
+2. testGetLocationOnline():
 
-```
-id – Захиалгын ID
-client – Захиалга хийж буй хэрэглэгч (Client)
-professional – Үйлчилгээ үзүүлэгч (Professional)
-service – Сонгосон үйлчилгээ (Service)
-date – Захиалгын огноо (LocalDate)
-startHour – Эхлэх цаг (ажлын цаг: 9–17)
-durationHours – Үргэлжлэх хугацаа (цаг)
-isOnline – Онлайн эсэх (true бол онлайн, false бол биечлэн)
-notes – Нэмэлт тэмдэглэл
-```
+- Онлайн уулзалтын байршил "Online" гэж буцаагдах эсэхийг шалгана
 
-Функцууд:
+3. testGetLocationInPerson():
 
-```
-isOnline() – Захиалга онлайнаар явагдах эсэхийг шалгах
-getLocation() – Онлайн бол “Online”, үгүй бол компанийн хаяг
-calculateFeeByDuration() – Үргэлжлэх хугацаагаар нийт төлбөрийг тооцох
-calculateFeeByPayment() – Цагийн төлбөрөөр нэгж үнэ тооцох
-setNotes(), setOnline() – Захиалгын мэдээллийг шинэчлэх
-```
+- Биечлэн уулзалтын байршил компаний хаягтай ижил эсэхийг шалгана
 
-**5. AppointmentSystem – Захиалгын систем**
+4. testCalculateFeeByDuration():
 
-Атрибутууд:
+- Хугацаагаар төлбөр тооцоолох зөв ажиллаж байгаа эсэхийг шалгана
 
-```
-schedules – Мэргэжилтний цагийн хуваарийг хадгалах бүтэц
-Map<Professional, Map<LocalDate, boolean[]>> – Тухайн өдрийн 9–17 цагийн (8 цаг) төлөв
-appointments – Захиалгуудын жагсаалт
-```
+5. testInvalidDuration():
 
-Функцууд:
+- Хугацаа 0 эсвэл түүнээс бага үед алдаа өгөх эсэхийг шалгана
 
-```
-registerProfessional(professional) – Мэргэжилтэн бүртгэх
-initializeDay(professional, date) – Мэргэжилтний тухайн өдрийн бүх цагийг сул болгох
-isAvailable(professional, date, hour) – Тухайн цаг сул эсэхийг шалгах
-bookAppointment(...) – Захиалга үүсгэх, олон цагийг зэрэглэх боломжтой
-(ирээдүйд хэрэгжих функцүүд):
-cancelAppointment() – Захиалгыг цуцлах
-getClientAppointments() – Хэрэглэгчийн захиалгууд
-getProsAppointments() – Мэргэжилтний захиалгууд
-getAvailableHours() – Сул цагуудыг харуулах
-```
+### AppointmentSystemTest class
 
-**6. Company – Байгууллага**
+1. setUp() метод:
 
-Атрибутууд:
+- Туршилт бүрт ашиглагдах системийн объект болон бусад тестийн өгөгдлүүдийг эхлүүлнэ
+- Мэргэжилтэн, үйлчилгээ, хэрэглэгч зэрэг объектуудыг үүсгэнэ
+- Системд мэргэжилтэн бүртгэж, өдрийн цагийг эхлүүлнэ
 
-```
-id, name, address, phone, email – Байгууллагын мэдээлэл
-(Professional класстай холбогддог)
-```
+2. testRegisterProfessional():
 
-**7. Person – Хувь хүн (Superclass)**
+- Шинэ мэргэжилтэн бүртгэхэд амжилттай ажиллаж байгаа эсэхийг шалгана
+- Бүртгэгдсэн мэргэжилтэн өдөр эхлүүлэх боломжтой эсэхийг шалгана
 
-Атрибутууд:
+3. testInitializeDay():
 
-```
-id – Хувь хүний ID
-name – Нэр
-phone – Утас
-email – Имэйл
-Өвлөгчид: Client, Professional
-```
+- Өдрийн цагийг эхлүүлсний дараа бүх цаг чөлөөтэй байгаа эсэхийг шалгана
 
-## Pull request and merge
+4. testBookAppointment():
 
-![pull request](/images/4.day4pullrequest.png)
+- Захиалга амжилттай үүсгэгдэж, харгалзах цаг завгүй болж байгаа эсэхийг шалгана
+- Хэрэглэгчийн захиалгын жагсаалтад шинэ захиалга нэмэгдсэн эсэхийг шалгана
 
+5. testCancelAppointment():
 
-**Merged**
+- Захиалга цуцлагдсаны дараа цаг чөлөөтэй болж, жагсаалтаас хасгагдаж байгаа эсэхийг шалгана
 
-![pull request](/images/4.merge.png)
+6. testGetAvailableHours():
+
+- Захиалга хийсэн цагууд жагсаалтад байхгүй, чөлөөт цагууд жагсаалтад байгаа эсэхийг шалгана
+
+7. testDoubleBooking():
+
+- Нэг цагт хоёр дахь захиалга хийхэд алдаа өгөх эсэхийг шалгана
+
+8. testInvalidHourBooking():
+
+- Ажиллах цагийн бус захиалга хийхэд алдаа өгөх эсэхийг шалгана
+
+9. testGetClientAppointments():
+
+- Хэрэглэгчийн бүх захиалгуудыг зөв буцааж байгаа эсэхийг шалгана
+
+10. testGetProfessionalAppointments():
+
+- Мэргэжилтэнд хийгдсэн бүх захиалгуудыг зөв буцааж байгаа эсэхийг шалгана
