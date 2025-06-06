@@ -189,3 +189,12 @@ phone – Утас
 email – Имэйл
 Өвлөгчид: Client, Professional
 ```
+
+## Pull request and merge
+
+![pull request](/images/4.day4pullrequest.png)
+
+
+**Merged**
+
+![pull request](/images/4.merge.png)
