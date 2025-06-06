@@ -1,5 +1,9 @@
 package example;
 
+/**
+ * Үйлчилгээ үзүүлэгч мэргэжилтний класс
+ */
+
 ;
 public class Professional extends Person { // үйлчилгээ үзүүлэгч
     private String specialty;

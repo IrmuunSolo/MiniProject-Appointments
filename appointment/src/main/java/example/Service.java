@@ -4,6 +4,10 @@ import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Үйлчилгээний мэдээллийг хадгалах класс
+ */
+
 public class Service {
 
     private int id;
@@ -40,6 +44,12 @@ public class Service {
         return defaultDurationHours; 
     }
 
+    /**
+     * Мэргэжилтнийг нэмнэ
+     * @param professional Мэргэжилтэн
+     * @throws IllegalArgumentException professional null байвал
+     */
+
     public String addProfessional(Professional pro) {
         if (pro == null) {
             throw new IllegalArgumentException("Professional cannot be null");
@@ -51,8 +61,12 @@ public class Service {
         return pro.getName() + " added professional to service"; // changed to english
     }
 
-
-    // Гаралт: мэргэжилтийн хассан бол true, чадаагүй бол false буцаана
+    /**
+     * Мэргэжилтнийг бүртгэлээс хасах
+     * @param professional Мэргэжилтэн
+     * @throws IllegalArgumentException professional бүртгэлгүй байвал
+     * @return мэргэжилтийн хассан бол true, чадаагүй бол false буцаана
+     */
     public boolean removeProfessional(Professional pro) {
         if (pro == null) {
             throw new IllegalArgumentException("Professional cannot be null");

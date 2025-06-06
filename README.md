@@ -104,69 +104,113 @@
 
 ### AppointmentTest class
 
-1. testCreateAppointment():
+#### 1. testCreateAppointment():
 
 - Захиалга амжилттай үүсэж байгаа эсэхийг шалгана
 - Бүх аттрибутад зөв утга оноогдсон эсэхийг шалгана
 
-2. testGetLocationOnline():
+#### 2. testGetLocationOnline():
 
 - Онлайн уулзалтын байршил "Online" гэж буцаагдах эсэхийг шалгана
 
-3. testGetLocationInPerson():
+#### 3. testGetLocationInPerson():
 
 - Биечлэн уулзалтын байршил компаний хаягтай ижил эсэхийг шалгана
 
-4. testCalculateFeeByDuration():
+#### 4. testCalculateFeeByDuration():
 
 - Хугацаагаар төлбөр тооцоолох зөв ажиллаж байгаа эсэхийг шалгана
 
-5. testInvalidDuration():
+#### 5. testInvalidDuration():
 
 - Хугацаа 0 эсвэл түүнээс бага үед алдаа өгөх эсэхийг шалгана
 
 ### AppointmentSystemTest class
 
-1. setUp() метод:
+#### 1. setUp() метод:
 
 - Туршилт бүрт ашиглагдах системийн объект болон бусад тестийн өгөгдлүүдийг эхлүүлнэ
 - Мэргэжилтэн, үйлчилгээ, хэрэглэгч зэрэг объектуудыг үүсгэнэ
 - Системд мэргэжилтэн бүртгэж, өдрийн цагийг эхлүүлнэ
 
-2. testRegisterProfessional():
+#### 2. testRegisterProfessional():
 
 - Шинэ мэргэжилтэн бүртгэхэд амжилттай ажиллаж байгаа эсэхийг шалгана
 - Бүртгэгдсэн мэргэжилтэн өдөр эхлүүлэх боломжтой эсэхийг шалгана
 
-3. testInitializeDay():
+#### 3. testInitializeDay():
 
 - Өдрийн цагийг эхлүүлсний дараа бүх цаг чөлөөтэй байгаа эсэхийг шалгана
 
-4. testBookAppointment():
+#### 4. testBookAppointment():
 
 - Захиалга амжилттай үүсгэгдэж, харгалзах цаг завгүй болж байгаа эсэхийг шалгана
 - Хэрэглэгчийн захиалгын жагсаалтад шинэ захиалга нэмэгдсэн эсэхийг шалгана
 
-5. testCancelAppointment():
+#### 5. testCancelAppointment():
 
 - Захиалга цуцлагдсаны дараа цаг чөлөөтэй болж, жагсаалтаас хасгагдаж байгаа эсэхийг шалгана
 
-6. testGetAvailableHours():
+#### 6. testGetAvailableHours():
 
 - Захиалга хийсэн цагууд жагсаалтад байхгүй, чөлөөт цагууд жагсаалтад байгаа эсэхийг шалгана
 
-7. testDoubleBooking():
+#### 7. testDoubleBooking():
 
 - Нэг цагт хоёр дахь захиалга хийхэд алдаа өгөх эсэхийг шалгана
 
-8. testInvalidHourBooking():
+#### 8. testInvalidHourBooking():
 
 - Ажиллах цагийн бус захиалга хийхэд алдаа өгөх эсэхийг шалгана
 
-9. testGetClientAppointments():
+#### 9. testGetClientAppointments():
 
 - Хэрэглэгчийн бүх захиалгуудыг зөв буцааж байгаа эсэхийг шалгана
 
-10. testGetProfessionalAppointments():
+#### 10. testGetProfessionalAppointments():
 
 - Мэргэжилтэнд хийгдсэн бүх захиалгуудыг зөв буцааж байгаа эсэхийг шалгана
+
+### Тест давалт
+
+![alt text](images/jacoco.png)
+
+<img src="images/test.png" alt="Alt Text" width="300" height="auto">
+
+## Кодын баримтжуулалт
+
+Функц, тестүүдэд коммент нэмэв. 
+
+Жишээ нь 
+
+```
+/**
+ * Цаг захиалгын системийг удирдах үндсэн класс
+ */
+
+public class AppointmentSystem {
+    private Map<Professional, Map<LocalDate, boolean[]>> schedules;
+    private List<Appointment> appointments;
+    private static final int WORKING_HOUR_START = 9;
+    private static final int WORKING_HOUR_END = 17;
+
+    /**
+     * Байгуулагч функц
+     */
+    public AppointmentSystem() {
+        this.schedules = new HashMap<>();
+        this.appointments = new ArrayList<>();
+    }
+
+    /**
+     * Шинэ мэргэжилтэн бүртгэх
+     * @param professional Бүртгэх мэргэжилтэн
+     * @throws IllegalArgumentException professional null байвал
+     */
+    public void registerProfessional(Professional professional) {
+        if (professional == null) {
+            throw new IllegalArgumentException("Professional cannot be null");
+        }
+        schedules.put(professional, new HashMap<>());
+    }
+```

@@ -6,6 +6,10 @@ import java.time.LocalDate;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * AppointmentSystem классын unit test
+ */
+
 public class AppointmentSystemTest {
 
     private AppointmentSystem system;
@@ -13,6 +17,10 @@ public class AppointmentSystemTest {
     private Client testClient;
     private Service testService;
     private LocalDate testDate;
+
+    /**
+     * Туршилт ажиллуулахаас өмнөх тохиргоо
+     */
 
     @BeforeEach
     public void setUp(){
@@ -37,6 +45,11 @@ public class AppointmentSystemTest {
         system.initializeDay(testProfessional, testDate);
     }
 
+    /**
+     * Мэргэжилтэн бүртгэх тест
+     * @result Мэргэжилтэн амжилттай бүртгэгдэнэ
+     */
+
     @Test
     public void testRegisterProfessional() {
         Professional newProfessional = new Professional(
@@ -50,7 +63,11 @@ public class AppointmentSystemTest {
         assertDoesNotThrow(() -> system.initializeDay(newProfessional, testDate));
     }
 
-    // Өдрийн цагийг эхлүүлж байгаа эсэхийг шалгана
+    /**
+     * Өдрийн цагийг эхлүүлэх тест
+     * @result Өдрийн бүх цаг чөлөөтэй болно
+     */
+
     @Test
     public void testInitializeDay() {
         LocalDate Date = testDate.plusDays(1);
@@ -62,7 +79,11 @@ public class AppointmentSystemTest {
         }
     }
 
-    // Захиалга амжилттай үүсгэж байгаа эсэхийг шалгана
+    /**
+     * Захиалга үүсгэх тест
+     * @result Захиалга амжилттай үүсч, цаг завгүй болно
+     */
+
     @Test
     public void testBookAppointment() {
         Appointment appointment = system.bookAppointment(
@@ -81,8 +102,11 @@ public class AppointmentSystemTest {
         assertEquals(1, system.getClientAppointments(testClient).size());
         assertFalse(system.isAvailable(testProfessional, testDate, 14));
     }
-
-    // Захиалга амжилттай цуцлагдаж байгаа эсэхийг шалгана
+ 
+    /**
+     * Захиалга амжилттай цуцлагдаж байгааг шалгах тест
+     * @result Захиалсан цаг цуцлагдаж, бүртгэлээс хасна
+     */
     @Test
     public void testCancelAppointment() {
         Appointment appointment = system.bookAppointment(
@@ -103,7 +127,11 @@ public class AppointmentSystemTest {
         assertTrue(system.isAvailable(testProfessional, testDate, 15));
     }
 
-    // Чөлөөт цагуудыг зөв буцааж байгаа эсэхийг шалгана
+    // 
+    /**
+     * Чөлөөт цагуудыг зөв буцааж байгаа эсэхийг шалгана
+     * @result мэргэжилтний боломжтой цагыг буцаана
+     */
     @Test
     public void testGetAvailableHours() {
         // Захиалга үүсгэх
@@ -121,7 +149,12 @@ public class AppointmentSystemTest {
         assertTrue(availableHours.contains(12));
     }
 
-    // Нэг цагт хоёр захиалга хийх боломжгүй эсэхийг шалгана
+    // 
+    /**
+     * Нэг цагт хоёр захиалга хийх боломжгүй эсэхийг шалгана
+     * @result алдаа буцаана
+     */
+    
     @Test
     public void testDoubleBooking() {
         system.bookAppointment( testClient, testProfessional, testService,
@@ -135,7 +168,10 @@ public class AppointmentSystemTest {
         });
     }
 
-    // Ажиллах цагийн бус захиалга хийх боломжгүй эсэхийг шалгана
+    /**
+     * Ажиллах цагийн бус захиалга хийх боломжгүй эсэхийг шалгана
+     * @result алдаа буцаана
+     */
     @Test
     public void testInvalidHourBooking() {
         assertThrows(IllegalArgumentException.class, () -> {
@@ -145,7 +181,11 @@ public class AppointmentSystemTest {
         });
     }
 
-    // Хэрэглэгчийн захиалгуудыг зөв буцааж байгаа эсэхийг шалгана
+    // 
+    /**
+     * Хэрэглэгчийн захиалгуудыг зөв буцааж байгаа эсэхийг шалгана
+     * @result хэрэглэгч 2 өөр цаг авна
+     */
     @Test
     public void testGetClientAppointments() {
 
@@ -179,7 +219,10 @@ public class AppointmentSystemTest {
         assertEquals(2, clientAppointments.size());
     }
 
-    // Мэргэжилтний захиалгуудыг зөв буцааж байгаа эсэхийг шалгана
+    /**
+     * Мэргэжилтний захиалгуудыг зөв буцааж байгаа эсэхийг шалгана
+     * @result хэрэглэгч 2 өөр цаг авна
+     */
     @Test
     public void testGetProfessionalAppointments() {
         Client client2 = new Client(2, "Alice", "111222", "alice@example.com");

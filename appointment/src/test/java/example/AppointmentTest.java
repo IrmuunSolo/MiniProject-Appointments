@@ -5,6 +5,10 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Appointment классын unit test
+ */
+
 public class AppointmentTest {
 
     private Client client;
@@ -12,6 +16,10 @@ public class AppointmentTest {
     private Service service;
     private Company company;
     private LocalDate testDate;
+
+    /**
+     * Туршилт ажиллуулахаас өмнөх тохиргоо
+     */
 
     @BeforeEach 
     void setup(){
@@ -26,6 +34,11 @@ public class AppointmentTest {
 
         testDate = LocalDate.now().plusDays(1);
     }
+
+    /**
+     * Захиалга үүсгэх тест
+     * @result Захиалга үүснэ
+     */
 
     @Test
     public void testCreateAppointment(){
@@ -43,6 +56,11 @@ public class AppointmentTest {
         assertEquals("First session", appointment.getNotes());
     }
 
+    /**
+     * Онлайн уулзалтын байршил "Online" гэж буцаагдах эсэхийг шалгана
+     * @result online гэсэн байршлыг буцаана
+     */
+
     @Test
     public void testGetLocationOnline(){
         Appointment appointment = new Appointment(2, client, professional, service, testDate,
@@ -51,6 +69,10 @@ public class AppointmentTest {
         assertEquals("Online", appointment.getLocation());
     }
 
+    /**
+     * Биечлэн уулзалтын байршил компаний хаягтай ижил эсэхийг шалгана
+     * @result компаны байршлыг буцаана
+     */
     @Test
     public void testGetLocationInPerson(){
         Appointment appointment = new Appointment(3, client, professional, service, testDate,
@@ -59,6 +81,10 @@ public class AppointmentTest {
         assertEquals(company.getAddress(), appointment.getLocation());
     }
 
+    /**
+     * Хугацаагаар төлбөр тооцоолох зөв ажиллаж байгаа эсэхийг шалгана
+     * @result төлбөрийн тооцоог буцаана
+     */
     @Test
     public void testCalculateFee(){
         Appointment DurationAppointment = new Appointment(4, client, professional, service, testDate,
@@ -72,7 +98,10 @@ public class AppointmentTest {
         assertEquals(professional.getPricePerHour(), payAppointment.calculateFee());
     }
 
-    // testInvalidDuration: Хугацаа 1 цагаас бага үед алдаа өгөх эсэхийг шалгана
+    /**
+     * testInvalidDuration: Хугацаа 1 цагаас бага үед алдаа өгөх эсэхийг шалгана
+     * @result IllegalArgumentException буцаана
+     */
     @Test
     public void testInvalidDuration() {
         assertThrows(IllegalArgumentException.class, () -> {
