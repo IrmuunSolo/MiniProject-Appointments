@@ -4,6 +4,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Service классын үйл ажиллагааг шалгах тестийн класс
  */
@@ -84,5 +87,66 @@ public class ServiceTest {
                          "description='Counseling session', " +
                          "professionals=1, defaultDurationHours=1}";
         assertEquals(expected, testService.toString());
+    }
+
+    @Test
+    public void testAddRemoveNullProfessional() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            testService.addProfessional(null);
+        });
+
+        assertThrows(IllegalArgumentException.class, () -> {
+        testService.removeProfessional(null);
+        });
+    }
+
+    @Test
+    public void testServiceWithNullNameProfessionals() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Service(
+                1,
+                null, // null name
+                "Description", new Professional[]{testProfessional1}, 1
+            );
+        });
+    
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Service(
+                1,
+                "", // empty name
+                "Description", new Professional[]{testProfessional1}, 1
+            );
+        });
+        
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Service(
+                1, "Test", "Description",
+                new Professional[]{testProfessional1, null}, // null professionals array
+                1
+            );
+        });
+    }
+
+    @Test
+    public void testInvalidDurationInConstructor() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Service(
+                1,
+                "Test",
+                "Description",
+                new Professional[]{testProfessional1},
+                0 // wrong defaultDuration
+            );
+        });
+    
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Service(
+                1,
+                "Test",
+                "Description",
+                new Professional[]{testProfessional1},
+                13 // wrong defaultDuration > 12
+            );
+        });
     }
 }

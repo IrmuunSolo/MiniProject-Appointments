@@ -80,7 +80,6 @@
 
     /**
      * Шинэ мэргэжилтэн бүртгэх
-     * @param professional Бүртгэх мэргэжилтэн
      * @throws IllegalArgumentException professional null байвал
      */
     public void registerProfessional(Professional professional) {
@@ -92,8 +91,6 @@
 
     /**
      * Өдрийн цагийг эхлүүлэх
-     * @param professional Мэргэжилтэн
-     * @param date Өдөр
      * @throws IllegalArgumentException professional бүртгэлгүй байвал
      */
     public void initializeDay(Professional professional, LocalDate date) {
@@ -101,5 +98,52 @@
         
         boolean[] hours = new boolean[WORKING_HOUR_END - WORKING_HOUR_START + 1];
         schedules.get(professional).put(date, hours);
+    }
+```
+
+## Алдааны тохиолдлын UT нэмэх
+
+Жишээ нь AppointmentSystemTest class-д
+
+-  Бүртгэлгүй мэргэжилтэн дээр цаг авах гэж оролдох үед алдаа шидэх тест
+
+```
+    @Test
+    public void testBookAppointmentWithUnregisteredProfessional() {
+        Professional unregistered = new Professional(
+            3, "Unregistered", "99880000", "un@test.com",
+            "Test", 1, 10000, testProfessional.getCompany()
+        );
+
+        testService.addProfessional(unregistered);
+    
+        assertThrows(IllegalArgumentException.class, () -> { system.bookAppointment( testClient,
+                unregistered, testService, testDate, 14, 1, false, true, "Test"
+            );
+        });
+    }
+```
+
+- огт байхгүй цагийг захиалгын цагуудаас хасах үед алдаа шидэх
+
+```
+    @Test
+    public void testCancelNonExistentAppointment() {
+        Appointment fakeAppointment = new Appointment(
+            999,
+            testClient,
+            testProfessional,
+            testService,
+            testDate,
+            14,
+            1,
+            false,
+            true,
+            "Fake"
+        );
+    
+        assertThrows(IllegalArgumentException.class, () -> {
+            system.cancelAppointment(fakeAppointment);
+        });
     }
 ```

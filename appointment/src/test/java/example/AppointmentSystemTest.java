@@ -45,6 +45,93 @@ public class AppointmentSystemTest {
         system.initializeDay(testProfessional, testDate);
     }
 
+
+    /**
+     * Бүртгэлгүй мэргэжилтийн шалгах тест
+     * @throws IllegalArgumentException Professional 
+     */
+    @Test
+    public void testBookAppointmentWithUnregisteredProfessional() {
+        Professional unregistered = new Professional(
+            3, "Unregistered", "99880000", "un@test.com",
+            "Test", 1, 10000, testProfessional.getCompany()
+        );
+
+        testService.addProfessional(unregistered);
+    
+        assertThrows(IllegalArgumentException.class, () -> {
+            system.bookAppointment(
+                testClient,
+                unregistered,
+                testService,
+                testDate,
+                14,
+                1,
+                false,
+                true,
+                "Test"
+            );
+        });
+    }
+
+    /**
+     * мэргэжилтний хуваарь тавиагүй өдөрт цаг авах үед алдаа шидэх
+     * @throws IllegalArgumentException "unavailable hours or uninitialized day"
+     */
+    @Test
+    public void testBookAppointmentWithUninitializedDate() {
+        LocalDate uninitializedDate = testDate.plusDays(2);
+    
+        assertThrows(IllegalStateException.class, () -> {
+            system.bookAppointment(
+                testClient,
+                testProfessional,
+                testService,
+                uninitializedDate,
+                14,
+                1,
+                false,
+                true,
+                "Test"
+            );
+        });
+    }
+
+        /**
+     * огт байхгүй цагийг захиалгын цагуудаас хасах үед алдаа шидэх
+     * @throws IllegalArgumentException "already there is not this appointment"
+     */
+    @Test
+    public void testCancelNonExistentAppointment() {
+        Appointment fakeAppointment = new Appointment(
+            999,
+            testClient,
+            testProfessional,
+            testService,
+            testDate,
+            14,
+            1,
+            false,
+            true,
+            "Fake"
+        );
+    
+        assertThrows(IllegalArgumentException.class, () -> {
+            system.cancelAppointment(fakeAppointment);
+        });
+    }
+
+    /**
+     * null хэрэглэгч өгөхөд захиалсан цагыг буцаалгүй, алдаа шидэх
+     * @throws IllegalArgumentException "already there is not this appointment"
+     */
+    @Test
+    public void testGetAppointmentsForNullClient() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            system.getClientAppointments(null);
+        });
+    }
+
     /**
      * Мэргэжилтэн бүртгэх тест
      * @result Мэргэжилтэн амжилттай бүртгэгдэнэ
@@ -53,7 +140,7 @@ public class AppointmentSystemTest {
     @Test
     public void testRegisterProfessional() {
         Professional newProfessional = new Professional(
-            2, "Dr. Jones", "112233", "jones@example.com",
+            2, "Dr. Jones", "11112233", "jones@example.com",
             "Therapist", 4, 45000, testProfessional.getCompany()
         );
         
@@ -160,7 +247,7 @@ public class AppointmentSystemTest {
         system.bookAppointment( testClient, testProfessional, testService,
             testDate,16, 1, false, true, "First booking");
 
-        Client anotherClient = new Client(2, "Jane Doe", "654321", "jane@example.com");
+        Client anotherClient = new Client(2, "Jane Doe", "65004321", "jane@example.com");
         
         assertThrows(IllegalStateException.class, () -> {
             system.bookAppointment(anotherClient, testProfessional, testService, testDate,
@@ -225,7 +312,7 @@ public class AppointmentSystemTest {
      */
     @Test
     public void testGetProfessionalAppointments() {
-        Client client2 = new Client(2, "Alice", "111222", "alice@example.com");
+        Client client2 = new Client(2, "Alice", "11124422", "alice@example.com");
         
         system.bookAppointment(testClient, testProfessional, testService, testDate,
             11, 1, false, true, "From client1"
