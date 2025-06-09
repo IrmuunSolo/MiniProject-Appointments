@@ -26,7 +26,8 @@ public class AppointmentTest {
 
         company = new Company(1, "Health Center", "UB", "123456", "health@example.com");
 
-        professional = new Professional(1, "Dr. Smith", "987654", "smith@example.com", "Psychologist", 4.8, 50000, company);
+        professional = new Professional(1, "Dr. Smith", "987654", "smith@example.com", 
+                    "Psychologist", 3, 50000, company);
 
         service = new Service(1, "Therapy", "Counseling session", new Professional[]{professional}, 1);
 
@@ -119,4 +120,133 @@ public class AppointmentTest {
             );
         });
     }
+
+    @Test
+    public void testNullClientThrowsException() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Appointment(
+                1,
+                null, // null client
+                professional,
+                service,
+                testDate,
+                14,
+                1,
+                false,
+                true,
+                "Test"
+            );
+        });
+    }
+
+    @Test
+    public void testNullProfessionalThrowsException() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Appointment(
+                1,
+                client,
+                null, // null professional
+                service,
+                testDate,
+                14,
+                1,
+                false,
+                true,
+                "Test"
+            );
+        });
+    }
+
+    @Test
+    public void testNullServiceThrowsException() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Appointment(
+                1,
+                client,
+                professional,
+                null, // null service
+                testDate,
+                14,
+                1,
+                false,
+                true,
+                "Test"
+            );
+        });
+    }
+
+    @Test
+    public void testPastDateThrowsException() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Appointment(
+                1,
+                client,
+                professional,
+                service,
+                LocalDate.now().minusDays(1), // past date
+                14,
+                1,
+                false,
+                true,
+                "Test"
+            );
+        });
+    }
+
+    @Test
+    public void testInvalidStartHourThrowsException() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Appointment(
+                1,
+                client,
+                professional,
+                service,
+                testDate,
+                8, // invalid hour (before 9)
+                1,
+                false,
+                true,
+                "Test"
+            );
+        });
+    
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Appointment(
+                1,
+                client,
+                professional,
+                service,
+                testDate,
+                18, // invalid hour (after 17)
+                1,
+                false,
+                true,
+                "Test"
+            );
+        });
+    }
+
+    @Test
+    public void testProfessionalNotOfferingService() {
+        Professional otherProfessional = new Professional(
+            2, "Dr. Jones", "112233", "jones@example.com",
+            "Therapist", 4, 45000, company
+        );
+    
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Appointment(
+                1,
+                client,
+                otherProfessional, // doesn't offer this service
+                service,
+                testDate,
+                14,
+                1,
+                false,
+                true,
+                "Test"
+            );
+        });
+    }
+
 }

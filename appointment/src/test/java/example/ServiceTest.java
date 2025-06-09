@@ -22,9 +22,9 @@ public class ServiceTest {
     public void setUp() throws Exception {
         testCompany = new Company(1, "Health center", "suhbaatar duureg", "12345678", "info@erm.mn");
         testProfessional1 = new Professional(1, "Dr. A", "99119911", "dr.a@erm.mn", 
-                                          "Psychologist", 4.8, 50000, testCompany);
+                                          "Psychologist", 1, 50000, testCompany);
         testProfessional2 = new Professional(2, "Dr. B", "99229922", "dr.b@erm.mn", 
-                                          "Doctor", 4.5, 45000, testCompany);
+                                          "Doctor", 2, 45000, testCompany);
         testService = new Service(1, "Therapy", 
                                 "Counseling session",
                                 new Professional[]{testProfessional1}, 1);
@@ -48,8 +48,8 @@ public class ServiceTest {
     @Test
     public void testRemoveProfessional() {
         testService.addProfessional(testProfessional2);
-        boolean result = testService.removeProfessional(testProfessional1);
-        assertTrue(result);
+        String result = testService.removeProfessional(testProfessional1);
+        assertEquals("Dr. A removed professional to service", result);
         assertEquals(1, testService.getProfessionals().length);
     }
 

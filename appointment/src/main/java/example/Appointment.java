@@ -23,10 +23,39 @@ public class Appointment{
 
     public Appointment(int id, Client client, Professional professional, Service service, 
                       LocalDate date, int startHour, int durationHours, boolean isOnline, 
-                      boolean payByHour,  String notes) {
-        if (durationHours < 1) {
-            throw new IllegalArgumentException("Duration must be at least 1 hour");
+                      boolean payByHour, String notes) {
+        // Алдаа шалгах
+        if (client == null) {
+            throw new IllegalArgumentException("Client can not be null");
         }
+        if (professional == null) {
+            throw new IllegalArgumentException("Professional can not be null");
+        }
+        if (service == null) {
+            throw new IllegalArgumentException("Service can not be null");
+        }
+        if (date == null) {
+            throw new IllegalArgumentException("Date can not be null");
+        }
+        //хугацаа нь өнгөрсөн цагийг шалгах
+        if (date.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("The date has expired.");
+        }
+        if (startHour < 9 || startHour > 17) {
+            throw new IllegalArgumentException("Start hour must be between 9 and 17");
+        }
+        if (durationHours < 1 || durationHours > 8) {
+            throw new IllegalArgumentException("Duration hour must be between 1 and 8");
+        }
+        if (startHour + durationHours > 18) {
+            throw new IllegalArgumentException("exceed work time limit");
+        }
+
+        if (!service.isOfferedBy(professional)) {
+            throw new IllegalArgumentException(
+                professional.getName() + " do not provide this service.");
+        }
+
         this.id = id;
         this.client = client;
         this.professional = professional;

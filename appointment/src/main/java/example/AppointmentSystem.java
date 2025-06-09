@@ -163,6 +163,10 @@ public class AppointmentSystem {
      * @throws IllegalArgumentException professional бүртгэлгүй байвал
      */
     public void cancelAppointment(Appointment appointment) {
+        if (appointment == null) {
+        throw new IllegalArgumentException("Appointment cannot be null");
+        }
+
         Professional professional = appointment.getProfessional();
         validateProfessional(professional);
         
@@ -184,6 +188,10 @@ public class AppointmentSystem {
      * @return хэрэглэгчийн хийсэн захиалгын жагсаалт
      */
     public List<Appointment> getClientAppointments(Client client) {
+        if (client == null) {
+        throw new IllegalArgumentException("Client cannot be null");
+        }
+
         List<Appointment> result = new ArrayList<>();
         for (Appointment appt : appointments) {
             if (appt.getClient().equals(client)) {
