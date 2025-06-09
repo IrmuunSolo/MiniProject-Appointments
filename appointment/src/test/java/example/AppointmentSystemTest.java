@@ -31,7 +31,7 @@ public class AppointmentSystemTest {
         "health@gmail.com");
 
         testProfessional = new Professional(1, "DR. Smith", "98986545", 
-        "smith@gmail.com", "Psychologist", 4.8, 50000, testCompany);
+        "smith@gmail.com", "Psychologist", 4, 50000, testCompany);
 
         testService = new Service(1, "Therapy", "Counseling session", 
         new Professional[]{testProfessional}, 1);
@@ -54,7 +54,7 @@ public class AppointmentSystemTest {
     public void testRegisterProfessional() {
         Professional newProfessional = new Professional(
             2, "Dr. Jones", "112233", "jones@example.com",
-            "Therapist", 4.5, 45000, testProfessional.getCompany()
+            "Therapist", 4, 45000, testProfessional.getCompany()
         );
         
         system.registerProfessional(newProfessional);

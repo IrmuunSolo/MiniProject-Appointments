@@ -1,205 +1,81 @@
-# 5-р өдөр: Мини төслийн хөгжүүлэлт - Тест бичих (TDD)
+# 6-р өдөр: Мини төслийн хөгжүүлэлт - Алдаа зохицуулалт
 
-Зорилго: Мини төсөлд unit тест бичиж, Test-Driven Development (TDD) зарчмыг хэрэглэх.
+Зорилго: Мини төсөлд алдаа зохицуулалт нэмэх.
 
-## Биегүй бичигдсэн үлдсэн функцуудыг гүйцээж бичив
+## 1. Алдаа зохицуулалт нэмэх
 
-**AppointmentSystem class:**
+1. Класс бүрийн байгуулагч функцэд оруулсан аргументуудыг шалгаж, объект үүсгэнэ. Алдаа гарвал IllegalArgumentException throw хийнэ.
 
-1. Мэргэжилтний тодорхой өдрийн бүх боломжтой цагийг жагсаалтаар буцаана.
+**Жишээ нь Professional классын байгуулагч функц:**
 
-    Авах утга (Мэргэжилтэн, тухайн өдөр)\
-    Буцаах утга - Тухайн өдрийн боломжтой цагийн жагсаалт
+- email '@' тэмдэгт агуулж байх ёстой
+- name хоосон байж болохгүй 
+- утасны дугаар 8 оронтой байх ёстой
+- specialty хоосон байж болохгүй
+- rating 0-5 хоорондох утга авна
 
 ```
-   public List<Integer> getAvailableHours(Professional professional, LocalDate date) {
-        validateProfessional(professional);
-        
-        ...
-
-        boolean[] hours = professionalSchedule.get(date);
-        for (int i = 0; i < hours.length; i++) {
-            if (!hours[i]) {
-                availableHours.add(WORKING_HOUR_START + i);
-            }
+    public Professional(int id, String name, String phone, String email, String specialty, double rating, double pricePerHour, Company company) {
+        super(id, name, phone, email);
+    
+        // email '@' тэмдэгт агуулж байгааг шалгах
+        if (email == null || !email.contains("@")) {
+            throw new IllegalArgumentException("Email must contain '@' symbol");
         }
-        return availableHours;
+    
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be null or empty");
+        }
+    
+        // утасны дугаар 8 оронтой байна
+        if (phone == null || phone.trim().isEmpty() || phone.length() != 8) {
+            throw new IllegalArgumentException("Phone cannot be null or empty and must be 8 digits");
+        }
+    
+        if (specialty == null || specialty.trim().isEmpty()) {
+            throw new IllegalArgumentException("Specialty cannot be null or empty");
+        }
+    
+        // rating 0-5 хооронд байх
+        if (rating < 0 || rating > 5) {
+            throw new IllegalArgumentException("Rating must be between 0 and 5");
+        }
+    
+        // эерэг утга шалгах
+        if (pricePerHour < 0) {
+            throw new IllegalArgumentException("Price cannot be negative");
+        }
+    
+        this.specialty = specialty;
+        this.rating = rating;
+        this.pricePerHour = pricePerHour;
+        this.company = company;
     }
 ```
 
-2. Захиалсан уулзалт, цагийг цуцлана
+2. Гол функцуудэд алдаа зохицуулалт нэмнэ.
 
-    Авах утга - Авсан цаг\
-    Буцаах утга - void
-
-```
-    public void cancelAppointment(Appointment appointment) {
-        Professional professional = appointment.getProfessional();
-        validateProfessional(professional);
-        
-        LocalDate date = appointment.getDate();
-        int startHour = appointment.getStartHour();
-        int durationHours = appointment.getDurationHours();
-
-        ...
-
-        appointments.remove(appointment);
-    }
-```
-
-3. Оруулсан цагийг ажлын цагт багтаж байгааг шалгана
-
-    Авах утга - int цаг\
-    Буцаах утга - Ажлын цагт багтах бол true, үгүй бол false
+Жишээ нь AppointmentSystem класст мэргэжилтийн хуваарь байгаа үгүйг шалгах функц validateProfessional нэмэж бичиж
+мөн цаг нь ажлын цагт багтаж байгааг шалгах validateHour функцууд байгаа ба алдаа гарвал IllegalArgumentException throw хийнэ
 
 ```
-    private void validateHour(int hour) {
-        if (hour < WORKING_HOUR_START || hour > WORKING_HOUR_END) {
-            return false;
+    private void validateProfessional(Professional professional) {
+        if (!schedules.containsKey(professional)) {
+            throw new IllegalArgumentException("Professional not registered in the schedule");
         }
-
-        return true;
     }
-```
-
-4. Тухайн хэрэглэгчийн бүх захиалгыг буцаана
-
-    Авах утга - хэрэглэгч\
-    Буцаах утга - Хэрэглэгчийн захиалсан цагийн жагсаалт
-
-```
-    public List<Appointment> getClientAppointments(Client client) {
-        List<Appointment> result = new ArrayList<>();
-        for (Appointment appt : appointments) {
-            if (appt.getClient().equals(client)) {
-                result.add(appt);
-            }
-        }
-        return result;
-    }
-```
-
-5.  Мэргэжилтний бүх захиалгыг буцаана
-
-    Авах утга - мэргэжилтэн\
-    Буцаах утга - Мэргэжилтны захиалгатай цагийн жагсаалт
-
-```
-    public List<Appointment> getProfessionalAppointments(Professional professional) {
-        validateProfessional(professional);
-        
-        List<Appointment> result = new ArrayList<>();
-        for (Appointment appt : appointments) {
-            if (appt.getProfessional().equals(professional)) {
-                result.add(appt);
-            }
-        }
-        return result;
-    } 
-```
-
-## Unit Test
-
-**Тест бүрийн тайлбар**
-
-### AppointmentTest class
-
-#### 1. testCreateAppointment():
-
-- Захиалга амжилттай үүсэж байгаа эсэхийг шалгана
-- Бүх аттрибутад зөв утга оноогдсон эсэхийг шалгана
-
-#### 2. testGetLocationOnline():
-
-- Онлайн уулзалтын байршил "Online" гэж буцаагдах эсэхийг шалгана
-
-#### 3. testGetLocationInPerson():
-
-- Биечлэн уулзалтын байршил компаний хаягтай ижил эсэхийг шалгана
-
-#### 4. testCalculateFeeByDuration():
-
-- Хугацаагаар төлбөр тооцоолох зөв ажиллаж байгаа эсэхийг шалгана
-
-#### 5. testInvalidDuration():
-
-- Хугацаа 0 эсвэл түүнээс бага үед алдаа өгөх эсэхийг шалгана
-
-### AppointmentSystemTest class
-
-#### 1. setUp() метод:
-
-- Туршилт бүрт ашиглагдах системийн объект болон бусад тестийн өгөгдлүүдийг эхлүүлнэ
-- Мэргэжилтэн, үйлчилгээ, хэрэглэгч зэрэг объектуудыг үүсгэнэ
-- Системд мэргэжилтэн бүртгэж, өдрийн цагийг эхлүүлнэ
-
-#### 2. testRegisterProfessional():
-
-- Шинэ мэргэжилтэн бүртгэхэд амжилттай ажиллаж байгаа эсэхийг шалгана
-- Бүртгэгдсэн мэргэжилтэн өдөр эхлүүлэх боломжтой эсэхийг шалгана
-
-#### 3. testInitializeDay():
-
-- Өдрийн цагийг эхлүүлсний дараа бүх цаг чөлөөтэй байгаа эсэхийг шалгана
-
-#### 4. testBookAppointment():
-
-- Захиалга амжилттай үүсгэгдэж, харгалзах цаг завгүй болж байгаа эсэхийг шалгана
-- Хэрэглэгчийн захиалгын жагсаалтад шинэ захиалга нэмэгдсэн эсэхийг шалгана
-
-#### 5. testCancelAppointment():
-
-- Захиалга цуцлагдсаны дараа цаг чөлөөтэй болж, жагсаалтаас хасгагдаж байгаа эсэхийг шалгана
-
-#### 6. testGetAvailableHours():
-
-- Захиалга хийсэн цагууд жагсаалтад байхгүй, чөлөөт цагууд жагсаалтад байгаа эсэхийг шалгана
-
-#### 7. testDoubleBooking():
-
-- Нэг цагт хоёр дахь захиалга хийхэд алдаа өгөх эсэхийг шалгана
-
-#### 8. testInvalidHourBooking():
-
-- Ажиллах цагийн бус захиалга хийхэд алдаа өгөх эсэхийг шалгана
-
-#### 9. testGetClientAppointments():
-
-- Хэрэглэгчийн бүх захиалгуудыг зөв буцааж байгаа эсэхийг шалгана
-
-#### 10. testGetProfessionalAppointments():
-
-- Мэргэжилтэнд хийгдсэн бүх захиалгуудыг зөв буцааж байгаа эсэхийг шалгана
-
-### Тест давалт
-
-![alt text](images/jacoco.png)
-
-<img src="images/test.png" alt="Alt Text" width="300" height="auto">
-
-## Кодын баримтжуулалт
-
-Функц, тестүүдэд коммент нэмэв. 
-
-Жишээ нь 
-
-```
-/**
- * Цаг захиалгын системийг удирдах үндсэн класс
- */
-
-public class AppointmentSystem {
-    private Map<Professional, Map<LocalDate, boolean[]>> schedules;
-    private List<Appointment> appointments;
-    private static final int WORKING_HOUR_START = 9;
-    private static final int WORKING_HOUR_END = 17;
 
     /**
-     * Байгуулагч функц
+     * Цагийг баталгаажуулна
+     * @param hour цаг
+     * @throws IllegalArgumentException String цаг 9-17 хооронд биш байвал
      */
-    public AppointmentSystem() {
-        this.schedules = new HashMap<>();
-        this.appointments = new ArrayList<>();
+    private void validateHour(int hour) {
+        if (hour < WORKING_HOUR_START || hour > WORKING_HOUR_END) {
+            throw new IllegalArgumentException(
+                String.format("Hour must be between %d and %d", WORKING_HOUR_START, WORKING_HOUR_END)
+            );
+        }
     }
 
     /**
@@ -212,5 +88,18 @@ public class AppointmentSystem {
             throw new IllegalArgumentException("Professional cannot be null");
         }
         schedules.put(professional, new HashMap<>());
+    }
+
+    /**
+     * Өдрийн цагийг эхлүүлэх
+     * @param professional Мэргэжилтэн
+     * @param date Өдөр
+     * @throws IllegalArgumentException professional бүртгэлгүй байвал
+     */
+    public void initializeDay(Professional professional, LocalDate date) {
+        validateProfessional(professional);
+        
+        boolean[] hours = new boolean[WORKING_HOUR_END - WORKING_HOUR_START + 1];
+        schedules.get(professional).put(date, hours);
     }
 ```
