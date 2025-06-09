@@ -14,20 +14,7 @@ public class Professional extends Person { // үйлчилгээ үзүүлэг�
 
     public Professional(int id, String name, String phone, String email, String specialty, int rating, double pricePerHour, Company company) {
         super(id, name, phone, email);
-    
-        // email '@' тэмдэгт агуулж байгааг шалгах
-        if (email == null || !email.contains("@")) {
-            throw new IllegalArgumentException("Email must contain '@' symbol");
-        }
-    
-        if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Name cannot be null or empty");
-        }
-    
-        // утасны дугаар 8 оронтой байна
-        if (phone == null || phone.trim().isEmpty() || phone.length() != 8) {
-            throw new IllegalArgumentException("Phone cannot be null or empty and must be 8 digits");
-        }
+
     
         if (specialty == null || specialty.trim().isEmpty()) {
             throw new IllegalArgumentException("Specialty cannot be null or empty");

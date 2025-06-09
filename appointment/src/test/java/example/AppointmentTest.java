@@ -24,14 +24,14 @@ public class AppointmentTest {
     @BeforeEach 
     void setup(){
 
-        company = new Company(1, "Health Center", "UB", "123456", "health@example.com");
+        company = new Company(1, "Health Center", "UB", "12340056", "health@example.com");
 
-        professional = new Professional(1, "Dr. Smith", "987654", "smith@example.com", 
+        professional = new Professional(1, "Dr. Smith", "98700654", "smith@example.com", 
                     "Psychologist", 3, 50000, company);
 
         service = new Service(1, "Therapy", "Counseling session", new Professional[]{professional}, 1);
 
-        client = new Client(1, "John Doe", "123456", "john@example.com");
+        client = new Client(1, "John Doe", "12003456", "john@example.com");
 
         testDate = LocalDate.now().plusDays(1);
     }
@@ -229,7 +229,7 @@ public class AppointmentTest {
     @Test
     public void testProfessionalNotOfferingService() {
         Professional otherProfessional = new Professional(
-            2, "Dr. Jones", "112233", "jones@example.com",
+            2, "Dr. Jones", "11223300", "jones@example.com",
             "Therapist", 4, 45000, company
         );
     

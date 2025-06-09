@@ -140,7 +140,7 @@ public class AppointmentSystem {
         // Бүх шаардлагатай цагуудын боломжтойг шалгах
         for (int i = 0; i < durationHours; i++) {
             if (!isAvailable(professional, date, startHour + i)) {
-                throw new IllegalStateException("Not all hours are available");
+                throw new IllegalStateException("unavailable hours or uninitialized day");
             }
         }
 
@@ -177,6 +177,10 @@ public class AppointmentSystem {
         // Mark hours as available
         for (int i = 0; i < durationHours; i++) {
             schedules.get(professional).get(date)[startHour + i - WORKING_HOUR_START] = false;
+        }
+
+        if(!appointments.contains(appointment)){
+            throw new IllegalArgumentException("Already there is not this appointment");
         }
 
         appointments.remove(appointment);
