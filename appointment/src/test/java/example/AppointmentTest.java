@@ -1,9 +1,15 @@
 package example;
 
-import static org.junit.jupiter.api.Assertions.*;
-import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import java.time.LocalDate;
+import static org.junit.jupiter.api.Assertions.*;
+import org.apache.logging.log4j.Logger;
+
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.startsWith;
+import static org.mockito.Mockito.*;
 
 /**
  * Appointment классын unit test
@@ -16,6 +22,8 @@ public class AppointmentTest {
     private Service service;
     private Company company;
     private LocalDate testDate;
+
+    private Logger mockLogger;
 
     /**
      * Туршилт ажиллуулахаас өмнөх тохиргоо
@@ -34,6 +42,9 @@ public class AppointmentTest {
         client = new Client(1, "John Doe", "12003456", "john@example.com");
 
         testDate = LocalDate.now().plusDays(1);
+
+        // log4j logger-г mock хийж оноох
+        mockLogger = mock(Logger.class);
     }
 
     /**
@@ -247,6 +258,27 @@ public class AppointmentTest {
                 "Test"
             );
         });
+    }
+
+    // Info log test: Байгуулагч функц
+    @Test
+    public void testConstructorLogsInfo() {
+        Appointment appointment = new Appointment(1, client, professional, service, testDate, 
+            10, 1, true, false, "Note", mockLogger);
+
+        // log бичигдсэн эсэх шалгах
+        verify(mockLogger, atLeastOnce()).info(startsWith("Created new appointment:"), eq(appointment));
+    }
+
+    // Info error test: Байгуулагч функц
+    @Test
+    public void testConstructorLogsError() {
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            Appointment appointment = new Appointment(1, null, professional, service, testDate, 
+                10, 1, true, false, "Note", mockLogger);
+        });
+
+        verify(mockLogger, atLeastOnce()).error(anyString(), eq(thrown.getMessage()));
     }
 
 }

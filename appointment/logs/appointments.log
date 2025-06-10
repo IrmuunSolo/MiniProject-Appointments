@@ -1,0 +1,14 @@
+2025-06-10 23:59:42.280 [main] INFO  example.Service - Created new service: Service{id=1, name='Therapy', description='Counseling session', professionals=1, defaultDurationHours=1}
+2025-06-10 23:59:43.468 [main] INFO  example.Appointment - Created new appointment: Appointment #1: Therapy with Dr. Smith on 2025-06-11 at 10:00 for 1 hour(s) (Online) - Notes: Note
+2025-06-11 00:00:47.322 [main] INFO  example.Service - Created new service: Service{id=1, name='Therapy', description='Counseling session', professionals=1, defaultDurationHours=1}
+2025-06-11 00:00:48.507 [main] INFO  example.Appointment - Created new appointment: Appointment #1: Therapy with Dr. Smith on 2025-06-12 at 10:00 for 1 hour(s) (Online) - Notes: Note
+2025-06-11 00:02:11.686 [main] INFO  example.Service - Created new service: Service{id=1, name='Therapy', description='Counseling session', professionals=1, defaultDurationHours=1}
+2025-06-11 00:02:12.979 [main] INFO  example.Appointment - Created new appointment: Appointment #1: Therapy with Dr. Smith on 2025-06-12 at 10:00 for 1 hour(s) (Online) - Notes: Note
+2025-06-11 00:06:25.376 [main] INFO  example.Service - Created new service: Service{id=1, name='Therapy', description='Counseling session', professionals=1, defaultDurationHours=1}
+2025-06-11 00:06:27.550 [main] ERROR example.Appointment - Failed to create appointment: Client can not be null
+2025-06-11 00:10:13.519 [main] INFO  example.Service - Created new service: Service{id=1, name='Therapy', description='Counseling session', professionals=1, defaultDurationHours=1}
+2025-06-11 00:10:50.168 [main] INFO  example.Service - Created new service: Service{id=1, name='Therapy', description='Counseling session', professionals=1, defaultDurationHours=1}
+2025-06-11 00:16:42.716 [main] INFO  example.Service - Created new service: Service{id=1, name='Therapy', description='Counseling session', professionals=1, defaultDurationHours=1}
+2025-06-11 00:17:48.166 [main] INFO  example.Service - Created new service: Service{id=1, name='Therapy', description='Counseling session', professionals=1, defaultDurationHours=1}
+2025-06-11 00:18:57.606 [main] INFO  example.Service - Created new service: Service{id=1, name='Therapy', description='Counseling session', professionals=1, defaultDurationHours=1}
+2025-06-11 00:21:20.761 [main] INFO  example.Service - Created new service: Service{id=1, name='Therapy', description='Counseling session', professionals=1, defaultDurationHours=1}

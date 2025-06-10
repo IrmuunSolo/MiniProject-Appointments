@@ -1,15 +1,24 @@
 package example;
 
 import java.time.LocalDate;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
- * Классын тодорхойлолт энд бичигдэнэ.
+ * Хэрэглэгчийн захиалсан цагийг бүтцийг тодорхойлох класс
  * 
  * @author Л.Ирмүүн B232270021
  * @version 1.0
  */
 
 public class Appointment{
+
+    Logger logger = LogManager.getLogger(Appointment.class);
+
+    public void setLogger(Logger logger) {
+        this.logger = logger;
+    }
+
     private int id;
     private Client client;
     private Professional professional;
@@ -24,49 +33,55 @@ public class Appointment{
     public Appointment(int id, Client client, Professional professional, Service service, 
                       LocalDate date, int startHour, int durationHours, boolean isOnline, 
                       boolean payByHour, String notes) {
-        // Алдаа шалгах
-        if (client == null) {
-            throw new IllegalArgumentException("Client can not be null");
-        }
-        if (professional == null) {
-            throw new IllegalArgumentException("Professional can not be null");
-        }
-        if (service == null) {
-            throw new IllegalArgumentException("Service can not be null");
-        }
-        if (date == null) {
-            throw new IllegalArgumentException("Date can not be null");
-        }
-        //хугацаа нь өнгөрсөн цагийг шалгах
-        if (date.isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("The date has expired.");
-        }
-        if (startHour < 9 || startHour > 17) {
-            throw new IllegalArgumentException("Start hour must be between 9 and 17");
-        }
-        if (durationHours < 1 || durationHours > 8) {
-            throw new IllegalArgumentException("Duration hour must be between 1 and 8");
-        }
-        if (startHour + durationHours > 18) {
-            throw new IllegalArgumentException("exceed work time limit");
-        }
+        try {
+            // Алдаа шалгах
+            if (client == null) {
+                throw new IllegalArgumentException("Client can not be null");
+            }
+            if (professional == null) {
+                throw new IllegalArgumentException("Professional can not be null");
+            }
+            if (service == null) {
+                throw new IllegalArgumentException("Service can not be null");
+            }
+            if (date == null) {
+                throw new IllegalArgumentException("Date can not be null");
+            }
+            //хугацаа нь өнгөрсөн цагийг шалгах
+            if (date.isBefore(LocalDate.now())) {
+                throw new IllegalArgumentException("The date has expired.");
+            }
+            if (startHour < 9 || startHour > 17) {
+                throw new IllegalArgumentException("Start hour must be between 9 and 17");
+            }
+            if (durationHours < 1 || durationHours > 8) {
+                throw new IllegalArgumentException("Duration hour must be between 1 and 8");
+            }
+            if (startHour + durationHours > 18) {
+                throw new IllegalArgumentException("exceed work time limit");
+            }
+            if (!service.isOfferedBy(professional)) {
+                throw new IllegalArgumentException(
+                    professional.getName() + " do not provide this service.");
+            }
 
-        if (!service.isOfferedBy(professional)) {
-            throw new IllegalArgumentException(
-                professional.getName() + " do not provide this service.");
-        }
+            this.id = id;
+            this.client = client;
+            this.professional = professional;
+            this.service = service;
+            this.date = date;
+            this.startHour = startHour;
+            this.durationHours = durationHours;
+            this.isOnline = isOnline;
+            this.payByHour = payByHour;
+            this.notes = notes;
 
-        this.id = id;
-        this.client = client;
-        this.professional = professional;
-        this.service = service;
-        this.date = date;
-        this.startHour = startHour;
-        this.durationHours = durationHours;
-        this.isOnline = isOnline;
-        this.payByHour = payByHour;
-        this.notes = notes;
-    }
+            logger.info("Created new appointment: {}", this);
+        } catch (IllegalArgumentException e) {
+            logger.error("Failed to create appointment: {}", e.getMessage());
+            throw e;
+        }  
+    } 
 
     // Getters
     public int getId() { return id; }
@@ -79,13 +94,14 @@ public class Appointment{
     public boolean isOnline() { return isOnline; }
     public String getLocation() {
         return isOnline ? "Online" : professional.getCompany().getAddress();
-    }    public String getNotes() { return notes; }
+    }    
+    public String getNotes() { return notes; }
 
     // Setters 
     public void setNotes(String notes) { this.notes = notes; }
     public void setOnline(boolean isOnline) { this.isOnline = isOnline; }
 
-    // төлбөрийг тооцох функцүүд
+    // төлбөрийг тооцох функц
     public double calculateFee() {
         if(payByHour){
             return durationHours * professional.getPricePerHour();
@@ -106,5 +122,60 @@ public class Appointment{
             isOnline ? "Online" : "In-person at " + getLocation(),
             notes
         );
+    }
+
+    // constructor function gets logger as argument
+    public Appointment(int id, Client client, Professional professional, Service service, 
+                      LocalDate date, int startHour, int durationHours, boolean isOnline, 
+                      boolean payByHour, String notes, Logger logger) {
+    this.logger = logger != null ? logger : LogManager.getLogger(Appointment.class);
+        try {
+            // Алдаа шалгах
+            if (client == null) {
+                throw new IllegalArgumentException("Client can not be null");
+            }
+            if (professional == null) {
+                throw new IllegalArgumentException("Professional can not be null");
+            }
+            if (service == null) {
+                throw new IllegalArgumentException("Service can not be null");
+            }
+            if (date == null) {
+                throw new IllegalArgumentException("Date can not be null");
+            }
+            //хугацаа нь өнгөрсөн цагийг шалгах
+            if (date.isBefore(LocalDate.now())) {
+                throw new IllegalArgumentException("The date has expired.");
+            }
+            if (startHour < 9 || startHour > 17) {
+                throw new IllegalArgumentException("Start hour must be between 9 and 17");
+            }
+            if (durationHours < 1 || durationHours > 8) {
+                throw new IllegalArgumentException("Duration hour must be between 1 and 8");
+            }
+            if (startHour + durationHours > 18) {
+                throw new IllegalArgumentException("exceed work time limit");
+            }
+            if (!service.isOfferedBy(professional)) {
+                throw new IllegalArgumentException(
+                    professional.getName() + " do not provide this service.");
+            }
+
+            this.id = id;
+            this.client = client;
+            this.professional = professional;
+            this.service = service;
+            this.date = date;
+            this.startHour = startHour;
+            this.durationHours = durationHours;
+            this.isOnline = isOnline;
+            this.payByHour = payByHour;
+            this.notes = notes;
+
+            logger.info("Created new appointment: {}", this);
+        } catch (IllegalArgumentException e) {
+            logger.error("Failed to create appointment: {}", e.getMessage());
+            throw e;
+        }  
     }
 }
