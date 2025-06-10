@@ -5,14 +5,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Цаг захиалгын системийг удирдах үндсэн класс
  */
 
 public class AppointmentSystem {
+
+    Logger logger = LogManager.getLogger(AppointmentSystem.class);
+
+    public void setLogger(Logger logger) {
+        this.logger = logger;
+    }
+
     private Map<Professional, Map<LocalDate, boolean[]>> schedules;
-    private List<Appointment> appointments;
+    private List<Appointment> appointments;                         // Бүх авсан цагуудыг хадгалах
     private static final int WORKING_HOUR_START = 9;
     private static final int WORKING_HOUR_END = 17;
 
@@ -20,8 +29,14 @@ public class AppointmentSystem {
      * Байгуулагч функц
      */
     public AppointmentSystem() {
-        this.schedules = new HashMap<>();
-        this.appointments = new ArrayList<>();
+        try{
+            this.schedules = new HashMap<>();
+            this.appointments = new ArrayList<>();
+            logger.info("Created new appointment Sytem: {}", this);
+        }catch (IllegalArgumentException e) {
+            logger.error("Failed to create appointment system: {}", e.getMessage());
+            throw e;
+        } 
     }
 
     /**
@@ -30,23 +45,35 @@ public class AppointmentSystem {
      * @throws IllegalArgumentException professional null байвал
      */
     public void registerProfessional(Professional professional) {
-        if (professional == null) {
-            throw new IllegalArgumentException("Professional cannot be null");
+        try {
+            if (professional == null) {
+                throw new IllegalArgumentException("Professional cannot be null");
+            }
+            schedules.put(professional, new HashMap<>());
+            logger.info("Registered professional: {}", professional.getName());
+        } catch (IllegalArgumentException e) {
+            logger.error("Failed to register professional: {}", e.getMessage());
+            throw e;
         }
-        schedules.put(professional, new HashMap<>());
     }
 
     /**
-     * Өдрийн цагийг эхлүүлэх
+     * мэргэжилтэн ажиллах өдрөө хуваарьт нэмэх
      * @param professional Мэргэжилтэн
      * @param date Өдөр
      * @throws IllegalArgumentException professional бүртгэлгүй байвал
      */
     public void initializeDay(Professional professional, LocalDate date) {
-        validateProfessional(professional);
-        
-        boolean[] hours = new boolean[WORKING_HOUR_END - WORKING_HOUR_START + 1];
-        schedules.get(professional).put(date, hours);
+        try {
+            validateProfessional(professional);
+
+            boolean[] hours = new boolean[WORKING_HOUR_END - WORKING_HOUR_START + 1];
+            schedules.get(professional).put(date, hours);
+            logger.info("Initialized day {} for professional {}", date, professional.getName());
+        } catch (IllegalArgumentException e) {
+            logger.error("Failed to initialize day: {}", e.getMessage());
+            throw e;
+        }
     }
 
     /**
@@ -74,7 +101,7 @@ public class AppointmentSystem {
     }
 
     /**
-     * Өгсөн мэргэжилтэн, огноо, цагт захиалах боломжтой эсэхийг шалгана
+     *  Мэргэжилтэн тухайн өдөр-цагт ажиллах хуваарь байгаа үгүйг шалгана
      * @param professional Мэргэжилтэн 
      * @param date Өдөр
      * @param hour цаг
@@ -130,31 +157,36 @@ public class AppointmentSystem {
                                      Service service, LocalDate date, 
                                      int startHour, int durationHours,
                                      boolean isOnline, boolean payByHour, String notes) {
-        validateProfessional(professional);
-        validateHour(startHour);
-        
-        if (durationHours < 1) {
-            throw new IllegalArgumentException("Duration must be at least 1 hour");
-        }
-
-        // Бүх шаардлагатай цагуудын боломжтойг шалгах
-        for (int i = 0; i < durationHours; i++) {
-            if (!isAvailable(professional, date, startHour + i)) {
-                throw new IllegalStateException("unavailable hours or uninitialized day");
+        try {
+            validateProfessional(professional);
+            validateHour(startHour);
+            
+            if (durationHours < 1) {
+                throw new IllegalArgumentException("Duration must be at least 1 hour");
             }
+
+            for (int i = 0; i < durationHours; i++) {
+                if (!isAvailable(professional, date, startHour + i)) {
+                    throw new IllegalStateException("unavailable hours or uninitialized day");
+                }
+            }
+
+            for (int i = 0; i < durationHours; i++) {
+                schedules.get(professional).get(date)[startHour + i - WORKING_HOUR_START] = true;
+            }
+
+            Appointment appointment = new Appointment(
+                appointments.size() + 1, client, professional, service,
+                date, startHour, durationHours, isOnline, payByHour, notes
+            );
+
+            appointments.add(appointment);
+            logger.info("Booked appointment: {}", appointment);
+            return appointment;
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            logger.error("Failed to book appointment: {}", e.getMessage());
+            throw e;
         }
-
-        // Цагуудын захиалснаар тэмдэглэх
-        for (int i = 0; i < durationHours; i++) {
-            schedules.get(professional).get(date)[startHour + i - WORKING_HOUR_START] = true;
-        }
-
-        Appointment appointment = new Appointment( appointments.size() + 1, client, professional, service,
-            date, startHour, durationHours, isOnline, payByHour, notes
-        );
-
-        appointments.add(appointment);
-        return appointment;
     }
 
     /**
@@ -163,27 +195,34 @@ public class AppointmentSystem {
      * @throws IllegalArgumentException professional бүртгэлгүй байвал
      */
     public void cancelAppointment(Appointment appointment) {
-        if (appointment == null) {
-        throw new IllegalArgumentException("Appointment cannot be null");
-        }
 
-        Professional professional = appointment.getProfessional();
-        validateProfessional(professional);
+        try{
+            if (appointment == null) {
+            throw new IllegalArgumentException("Appointment cannot be null");
+            }
+
+            Professional professional = appointment.getProfessional();
+            validateProfessional(professional);
         
-        LocalDate date = appointment.getDate();
-        int startHour = appointment.getStartHour();
-        int durationHours = appointment.getDurationHours();
+            LocalDate date = appointment.getDate();
+            int startHour = appointment.getStartHour();
+            int durationHours = appointment.getDurationHours();
 
-        // Mark hours as available
-        for (int i = 0; i < durationHours; i++) {
-            schedules.get(professional).get(date)[startHour + i - WORKING_HOUR_START] = false;
+            // Mark hours as available
+            for (int i = 0; i < durationHours; i++) {
+                schedules.get(professional).get(date)[startHour + i - WORKING_HOUR_START] = false;
+            }
+
+            if(!appointments.contains(appointment)){
+                throw new IllegalArgumentException("Already there is not this appointment");
+            }
+
+            appointments.remove(appointment);
+            logger.info("Cancelled appointment: {}", appointment);
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            logger.error("Failed to cancel appointment: {}", e.getMessage());
+            throw e;
         }
-
-        if(!appointments.contains(appointment)){
-            throw new IllegalArgumentException("Already there is not this appointment");
-        }
-
-        appointments.remove(appointment);
     }
 
     /**

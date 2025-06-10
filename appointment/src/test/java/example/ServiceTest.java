@@ -4,6 +4,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.apache.logging.log4j.Logger;
+
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
+
 /**
  * Service классын үйл ажиллагааг шалгах тестийн класс
  */
@@ -13,6 +18,8 @@ public class ServiceTest {
     private Professional testProfessional2;
     private Service testService;
     private Company testCompany;
+
+    private Logger mockLogger;
 
     /**
      * Тест эхлэхэд бэлдэх үйлдлүүд
@@ -28,6 +35,8 @@ public class ServiceTest {
         testService = new Service(1, "Therapy", 
                                 "Counseling session",
                                 new Professional[]{testProfessional1}, 1);
+        mockLogger = mock(Logger.class);
+        testService.setLogger(mockLogger); 
     }
 
     /**
@@ -146,4 +155,30 @@ public class ServiceTest {
             );
         });
     }
+
+    // Info log, warn test: AddProfessional функц
+    @Test
+    public void testAddProfessionalLogsInfo_Warn() {
+        String result = testService.addProfessional(testProfessional2);
+
+        verify(mockLogger, atLeastOnce()).info(eq("Dr. B added professional to service"));
+
+        String result2 = testService.addProfessional(testProfessional1);
+
+        verify(mockLogger, atLeastOnce()).warn(eq("Dr. A is already associated with this service"));
+    }
+
+    // Info log, warn test: emoveProfessional функц
+    @Test
+    public void testRemoveProfessionalLogsInfo_Warn() {
+        testService.addProfessional(testProfessional2);
+        String result = testService.removeProfessional(testProfessional2);
+
+        verify(mockLogger, atLeastOnce()).info(eq("Dr. B removed professional to service"));
+
+        String result2 = testService.removeProfessional(testProfessional2);
+
+        verify(mockLogger, atLeastOnce()).warn(eq("Dr. B is not associated with this service"));
+    }
+
 }

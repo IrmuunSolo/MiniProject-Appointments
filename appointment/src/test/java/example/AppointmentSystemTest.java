@@ -5,6 +5,11 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
+import org.apache.logging.log4j.Logger;
+
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
 
 /**
  * AppointmentSystem классын unit test
@@ -17,6 +22,8 @@ public class AppointmentSystemTest {
     private Client testClient;
     private Service testService;
     private LocalDate testDate;
+
+    private Logger mockLogger;
 
     /**
      * Туршилт ажиллуулахаас өмнөх тохиргоо
@@ -43,6 +50,10 @@ public class AppointmentSystemTest {
         // Системд мэргэжилтэн бүртгэх
         system.registerProfessional(testProfessional);
         system.initializeDay(testProfessional, testDate);
+
+        // log4j logger-г mock хийж оноох
+        mockLogger = mock(Logger.class);
+        system.setLogger(mockLogger); 
     }
 
 
@@ -326,5 +337,67 @@ public class AppointmentSystemTest {
         assertEquals(2, professionalAppointments.size());
     }
 
+    // Info Log test: BookAppointment функц
+    @Test
+    public void testBookAppointmentLogsInfo() {
+        Appointment appointment = system.bookAppointment(testClient, testProfessional, testService, testDate, 10, 1, true, false, "Test");
+
+        verify(mockLogger, atLeastOnce()).info(anyString(), eq(appointment));
+    }  
     
+    // Info Log test: BookAppointment функц
+    @Test
+    public void testBookAppointmentLogsError() {
+        IllegalArgumentException thrownException = assertThrows(IllegalArgumentException.class, () -> {
+            system.bookAppointment(testClient, testProfessional, testService, testDate, 7, 1, true, false, "Test");
+        });
+        verify(mockLogger, atLeastOnce()).error(anyString(), eq(thrownException.getMessage()));
+    }   
+
+    // Info, error log test: RegisterProfessional функц
+    @Test
+    public void testRegisterProfessionalLogsInfoAndError() {
+        // Амжилттай бүртгэхэд info лог
+        system.registerProfessional(testProfessional);
+        verify(mockLogger).info(eq("Registered professional: {}"), eq(testProfessional.getName()));
+
+        // Алдаатай бүртгэхэд error лог
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> {
+            system.registerProfessional(null);
+        });
+        verify(mockLogger).error(eq("Failed to register professional: {}"), eq(ex.getMessage()));
+    }
+
+    // Info, error log test: InitializeDay функц
+    @Test
+    public void testInitializeDayLogsInfoAndError() {
+        // Өгөгдсөн мэргэжилтэн, өдрөөр амжилттай ажиллахад info лог
+        system.registerProfessional(testProfessional); // заавал бүртгэх шаардлагатай
+        system.initializeDay(testProfessional, testDate);
+        verify(mockLogger).info(eq("Initialized day {} for professional {}"), eq(testDate), eq(testProfessional.getName()));
+
+        // Алдаатай initialize хийхэд error лог
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> {
+            system.initializeDay(null, testDate);
+        });
+        verify(mockLogger).error(eq("Failed to initialize day: {}"), eq(ex.getMessage()));
+    }
+
+    // Info, error log test: InitializeDay функц
+    @Test
+    public void testCancelAppointmentLogsInfoAndError() {
+        // Буруу оролт (null) дээр error лог
+        IllegalArgumentException ex1 = assertThrows(IllegalArgumentException.class, () -> {
+            system.cancelAppointment(null);
+        });
+        verify(mockLogger).error(eq("Failed to cancel appointment: {}"), eq(ex1.getMessage()));
+
+        // Амжилттай цуцлахад info лог бичигдэнэ
+        Appointment appointment = system.bookAppointment(testClient, testProfessional, testService, testDate, 15, 1,
+            true, false, "Online session" );
+
+        system.cancelAppointment(appointment);
+        verify(mockLogger).info(eq("Cancelled appointment: {}"), eq(appointment));
+    }
+
 }
