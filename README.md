@@ -1,92 +1,29 @@
-# 7-р өдөр: Мини төслийн хөгжүүлэлт - Log4j v2 ашиглан лог хийх
+# 8, 9-р өдөр: Төслийн өнгөлгөө, тайлан ба илтгэл бэлтгэх
 
-**Зорилго: Мини төсөлд Log4j v2 ашиглан үйлдэл болон алдааны лог хийх.**
+**Зорилго: Мини төслийг өнгөлж, тайлан, танилцуулга бэлтгэх.**
 
-## 1. Log4j v2-г төсөлд тохируул
+## 1. Төсөл өнгөлөх
 
-Log4j 2 тохируулахын тулд pom.xml файлыг нээж, <dependencies> хэсэгт дараах dependency-г нэмнэ:
+- Кодын чанарыг сайжруулсан: коммент нэмж, нэршлийг стандартчилсан
+- Бүх онцлогуудыг туршсан: Бүх онцлог функцуудыг ажиллуулж, алдааг шалгасан
+- JUnit тестүүдийг дахин ажиллуулж, найдвартай байдлыг баталгаажуулсан.
+- Лог файлуудыг шалгасан: appointment-system.log, appointment.log, service.log файлууд бүрэн бичигдсэн
 
-```
-    <!-- Log4j 2 Core -->
-    <dependency>
-        <groupId>org.apache.logging.log4j</groupId>
-        <artifactId>log4j-core</artifactId>
-        <version>2.23.1</version> <!-- Хамгийн сүүлийн хувилбарыг ашиглана уу -->
-    </dependency>
-    
-    <!-- Log4j 2 API -->
-    <dependency>
-        <groupId>org.apache.logging.log4j</groupId>
-        <artifactId>log4j-api</artifactId>
-        <version>2.23.1</version>
-```
+## 2. Тайлан ба танилцуулга бэлтгэх
 
-src/main/resources хавтас дотор log4j2.xml файл үүсгэж, тохируулна.
+**Төслийн тайлан** бичсэн: (Report, presentation/FinalReport.docx)
+**Төслийн танилцуулга**: (Report, presentation/Project presentation)
 
-## 2. Гол функцүүдэд лог нэмэх
+## Log file screenshot
 
-Жишээ нь AppointmentSystem классд мэргэжилтэн бүргэх функцэд лог нэмье
+**appointment-system.log**
 
-- нэмэж бичсэн лог нь хэрвээ функц зөв ажиллаж мэргэжилтнийг системд нэмсэн бол **Registered professional: name**
-гэж (logs/appointments.log) файлд бичигдэнэ.
-- Хэрвээ функц ажиллахад алдаа гарвал **Failed to register professional: e.getMessage()** гэж лог файлд бичигдэнэ.
+![log](images/appointmentSystemLog.png)
 
-```
-    public void registerProfessional(Professional professional) {
-        try {
-            if (professional == null) {
-                throw new IllegalArgumentException("Professional cannot be null");
-            }
-            schedules.put(professional, new HashMap<>());
-            logger.info("Registered professional: {}", professional.getName());
-        } catch (IllegalArgumentException e) {
-            logger.error("Failed to register professional: {}", e.getMessage());
-            throw e;
-        }
-    }
-```
+**appointment.log**
 
-### Үүнтэй адил дараах гол функцүүдэд лог-ийг нэмэв.
+![alt text](images/appointmentLog.png)
 
-**AppointmentSystem:**
+**service.log**
 
-- AppointmentSystem
-- registerProfessional
-- initializeDay
-- bookAppointment
-- cancelAppointment
-
-**Appointment class:**
-
-- Appointment
-
-**Service class:**
-
-- Service
-- addProfessional
-- removeProfessional
-
-## 3. Лог бичигдсэнийг шалгар unit test
-
-Дээрх бичигдсэн registerProfessional функц лог-ийг (logs/appointments.log) файлд бичиж байгаа эсэхийг доорх тестээр шалгана.
-
-```
-    @Test
-    public void testRegisterProfessionalLogsInfoAndError() {
-        // Амжилттай бүртгэхэд info лог
-        system.registerProfessional(testProfessional);
-        verify(mockLogger).info(eq("Registered professional: {}"), eq(testProfessional.getName()));
-
-        // Алдаатай бүртгэхэд error лог
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> {
-            system.registerProfessional(null);
-        });
-        verify(mockLogger).error(eq("Failed to register professional: {}"), eq(ex.getMessage()));
-    }
-```
-
-Дээрх тест нь амжилттай info лог, алдаатай error лог logs/appointments.log файлд бүртгэгдсэн бол тестийг давна.
-
-Тестүүдийг давсан нь:
-
-![log test](images/logtest.png)
+![log](images/serviceLog.png)
