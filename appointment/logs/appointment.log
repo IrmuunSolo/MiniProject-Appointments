@@ -1,0 +1,26 @@
+2025-06-11 17:42:49.216 [main] ERROR example.Appointment - Failed to create appointment: Dr. Jones do not provide this service.
+2025-06-11 17:43:05.877 [main] INFO  example.Appointment - Created new appointment: Appointment #1: Therapy with Dr. Smith on 2025-06-12 at 14:00 for 1 hour(s) (In-person at UB) - Notes: First session
+2025-06-12 04:11:11.523 [main] INFO  example.Appointment - Created new appointment: Appointment #1: Therapy with DR. Smith on 2025-06-13 at 9:00 for 1 hour(s) (In-person at UB) - Notes: First
+2025-06-12 04:11:11.523 [main] INFO  example.Appointment - Created new appointment: Appointment #2: Therapy with DR. Smith on 2025-06-14 at 10:00 for 1 hour(s) (Online) - Notes: Second
+2025-06-12 04:11:11.564 [main] INFO  example.Appointment - Created new appointment: Appointment #1: Therapy with DR. Smith on 2025-06-13 at 10:00 for 2 hour(s) (In-person at UB) - Notes: Morning session
+2025-06-12 04:11:11.564 [main] INFO  example.Appointment - Created new appointment: Appointment #1: Therapy with DR. Smith on 2025-06-13 at 10:00 for 1 hour(s) (Online) - Notes: Test
+2025-06-12 04:11:11.570 [main] INFO  example.Appointment - Created new appointment: Appointment #1: Therapy with DR. Smith on 2025-06-13 at 14:00 for 1 hour(s) (In-person at UB) - Notes: First session
+2025-06-12 04:11:11.581 [main] INFO  example.Appointment - Created new appointment: Appointment #1: Therapy with DR. Smith on 2025-06-13 at 15:00 for 1 hour(s) (Online) - Notes: Online session
+2025-06-12 04:11:11.583 [main] INFO  example.Appointment - Created new appointment: Appointment #999: Therapy with DR. Smith on 2025-06-13 at 14:00 for 1 hour(s) (In-person at UB) - Notes: Fake
+2025-06-12 04:11:11.594 [main] INFO  example.Appointment - Created new appointment: Appointment #1: Therapy with DR. Smith on 2025-06-13 at 11:00 for 1 hour(s) (In-person at UB) - Notes: From client1
+2025-06-12 04:11:11.594 [main] INFO  example.Appointment - Created new appointment: Appointment #2: Therapy with DR. Smith on 2025-06-13 at 13:00 for 1 hour(s) (Online) - Notes: From client2
+2025-06-12 04:11:11.594 [main] INFO  example.Appointment - Created new appointment: Appointment #1: Therapy with DR. Smith on 2025-06-13 at 16:00 for 1 hour(s) (In-person at UB) - Notes: First booking
+2025-06-12 04:11:11.607 [main] INFO  example.Appointment - Created new appointment: Appointment #1: Therapy with DR. Smith on 2025-06-13 at 15:00 for 1 hour(s) (Online) - Notes: Online session
+2025-06-12 04:11:11.620 [main] ERROR example.Appointment - Failed to create appointment: Dr. Jones do not provide this service.
+2025-06-12 04:11:11.628 [main] ERROR example.Appointment - Failed to create appointment: Start hour must be between 9 and 17
+2025-06-12 04:11:11.630 [main] ERROR example.Appointment - Failed to create appointment: Start hour must be between 9 and 17
+2025-06-12 04:11:11.634 [main] ERROR example.Appointment - Failed to create appointment: Client can not be null
+2025-06-12 04:11:11.636 [main] INFO  example.Appointment - Created new appointment: Appointment #3: Therapy with Dr. Smith on 2025-06-13 at 16:00 for 1 hour(s) (In-person at UB) - Notes: null
+2025-06-12 04:11:11.641 [main] ERROR example.Appointment - Failed to create appointment: Duration hour must be between 1 and 8
+2025-06-12 04:11:11.642 [main] ERROR example.Appointment - Failed to create appointment: Service can not be null
+2025-06-12 04:11:11.646 [main] ERROR example.Appointment - Failed to create appointment: The date has expired.
+2025-06-12 04:11:11.646 [main] INFO  example.Appointment - Created new appointment: Appointment #1: Therapy with Dr. Smith on 2025-06-13 at 14:00 for 1 hour(s) (In-person at UB) - Notes: First session
+2025-06-12 04:11:11.646 [main] INFO  example.Appointment - Created new appointment: Appointment #2: Therapy with Dr. Smith on 2025-06-13 at 15:00 for 1 hour(s) (Online) - Notes: Online session
+2025-06-12 04:11:11.650 [main] ERROR example.Appointment - Failed to create appointment: Professional can not be null
+2025-06-12 04:11:11.652 [main] INFO  example.Appointment - Created new appointment: Appointment #4: Therapy with Dr. Smith on 2025-06-13 at 10:00 for 2 hour(s) (In-person at UB) - Notes: two hour session
+2025-06-12 04:11:11.652 [main] INFO  example.Appointment - Created new appointment: Appointment #5: Therapy with Dr. Smith on 2025-06-13 at 11:00 for 1 hour(s) (Online) - Notes: online session

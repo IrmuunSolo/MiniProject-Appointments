@@ -13,7 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 public class Appointment{
 
-    Logger logger = LogManager.getLogger(Appointment.class);
+    private Logger logger = LogManager.getLogger(Appointment.class);
 
     public void setLogger(Logger logger) {
         this.logger = logger;
@@ -124,7 +124,7 @@ public class Appointment{
         );
     }
 
-    // constructor function gets logger as argument
+    // Logger-ийг аргументээр авдаг байгуулагч функц
     public Appointment(int id, Client client, Professional professional, Service service, 
                       LocalDate date, int startHour, int durationHours, boolean isOnline, 
                       boolean payByHour, String notes, Logger logger) {

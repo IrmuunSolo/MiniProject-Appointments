@@ -274,7 +274,7 @@ public class AppointmentTest {
     @Test
     public void testConstructorLogsError() {
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            Appointment appointment = new Appointment(1, null, professional, service, testDate, 
+            new Appointment(1, null, professional, service, testDate, 
                 10, 1, true, false, "Note", mockLogger);
         });
 

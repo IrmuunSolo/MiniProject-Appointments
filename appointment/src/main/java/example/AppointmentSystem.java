@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger;
 
 public class AppointmentSystem {
 
-    Logger logger = LogManager.getLogger(AppointmentSystem.class);
+    private Logger logger = LogManager.getLogger(AppointmentSystem.class);
 
     public void setLogger(Logger logger) {
         this.logger = logger;
@@ -190,7 +190,7 @@ public class AppointmentSystem {
     }
 
     /**
-     * Захиалгыг цуцлана    
+     * Захиалсан уулзалтыг цуцлана    
      * @param Appointment
      * @throws IllegalArgumentException professional бүртгэлгүй байвал
      */

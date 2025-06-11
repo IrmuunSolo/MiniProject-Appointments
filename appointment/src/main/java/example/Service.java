@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 public class Service {
 
-    Logger logger = LogManager.getLogger(Service.class);
+    private Logger logger = LogManager.getLogger(Service.class);
 
     public void setLogger(Logger logger) {
         this.logger = logger;

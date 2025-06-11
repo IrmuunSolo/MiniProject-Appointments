@@ -159,24 +159,24 @@ public class ServiceTest {
     // Info log, warn test: AddProfessional функц
     @Test
     public void testAddProfessionalLogsInfo_Warn() {
-        String result = testService.addProfessional(testProfessional2);
+        testService.addProfessional(testProfessional2);
 
         verify(mockLogger, atLeastOnce()).info(eq("Dr. B added professional to service"));
 
-        String result2 = testService.addProfessional(testProfessional1);
+        testService.addProfessional(testProfessional1);
 
         verify(mockLogger, atLeastOnce()).warn(eq("Dr. A is already associated with this service"));
     }
 
-    // Info log, warn test: emoveProfessional функц
+    // Info log, warn test: removeProfessional функц
     @Test
     public void testRemoveProfessionalLogsInfo_Warn() {
         testService.addProfessional(testProfessional2);
-        String result = testService.removeProfessional(testProfessional2);
+        testService.removeProfessional(testProfessional2);
 
         verify(mockLogger, atLeastOnce()).info(eq("Dr. B removed professional to service"));
 
-        String result2 = testService.removeProfessional(testProfessional2);
+        testService.removeProfessional(testProfessional2);
 
         verify(mockLogger, atLeastOnce()).warn(eq("Dr. B is not associated with this service"));
     }
