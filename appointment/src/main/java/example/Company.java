@@ -1,5 +1,9 @@
 package example;
 
+/**
+ * Мэргэжилтний харьяалагдах компанины класс
+ */
+
 public class Company {
     private int id;
     private String name;

@@ -1,0 +1,63 @@
+2025-06-11 17:37:08.220 [main] INFO  example.AppointmentSystem - Created new appointment Sytem: example.AppointmentSystem@77825085
+2025-06-11 17:37:08.235 [main] INFO  example.AppointmentSystem - Registered professional: DR. Smith
+2025-06-11 17:37:08.235 [main] INFO  example.AppointmentSystem - Initialized day 2025-06-12 for professional DR. Smith
+2025-06-11 17:44:06.814 [main] INFO  example.AppointmentSystem - Created new appointment Sytem: example.AppointmentSystem@77825085
+2025-06-11 17:44:06.823 [main] INFO  example.AppointmentSystem - Registered professional: DR. Smith
+2025-06-11 17:44:06.823 [main] INFO  example.AppointmentSystem - Initialized day 2025-06-12 for professional DR. Smith
+2025-06-11 17:44:25.491 [main] INFO  example.AppointmentSystem - Created new appointment Sytem: example.AppointmentSystem@77825085
+2025-06-11 17:44:25.501 [main] INFO  example.AppointmentSystem - Registered professional: DR. Smith
+2025-06-11 17:44:25.501 [main] INFO  example.AppointmentSystem - Initialized day 2025-06-12 for professional DR. Smith
+2025-06-12 04:11:09.730 [main] INFO  example.AppointmentSystem - Created new appointment Sytem: example.AppointmentSystem@e9ef5b6
+2025-06-12 04:11:09.746 [main] INFO  example.AppointmentSystem - Registered professional: DR. Smith
+2025-06-12 04:11:09.746 [main] INFO  example.AppointmentSystem - Initialized day 2025-06-13 for professional DR. Smith
+2025-06-12 04:11:11.519 [main] INFO  example.AppointmentSystem - Created new appointment Sytem: example.AppointmentSystem@47d9c01
+2025-06-12 04:11:11.519 [main] INFO  example.AppointmentSystem - Registered professional: DR. Smith
+2025-06-12 04:11:11.519 [main] INFO  example.AppointmentSystem - Initialized day 2025-06-13 for professional DR. Smith
+2025-06-12 04:11:11.528 [main] INFO  example.AppointmentSystem - Created new appointment Sytem: example.AppointmentSystem@35d88a54
+2025-06-12 04:11:11.528 [main] INFO  example.AppointmentSystem - Registered professional: DR. Smith
+2025-06-12 04:11:11.528 [main] INFO  example.AppointmentSystem - Initialized day 2025-06-13 for professional DR. Smith
+2025-06-12 04:11:11.528 [main] INFO  example.AppointmentSystem - Created new appointment Sytem: example.AppointmentSystem@4d4c4b14
+2025-06-12 04:11:11.528 [main] INFO  example.AppointmentSystem - Registered professional: DR. Smith
+2025-06-12 04:11:11.534 [main] INFO  example.AppointmentSystem - Initialized day 2025-06-13 for professional DR. Smith
+2025-06-12 04:11:11.534 [main] INFO  example.AppointmentSystem - Created new appointment Sytem: example.AppointmentSystem@32d1d6c5
+2025-06-12 04:11:11.534 [main] INFO  example.AppointmentSystem - Registered professional: DR. Smith
+2025-06-12 04:11:11.534 [main] INFO  example.AppointmentSystem - Initialized day 2025-06-13 for professional DR. Smith
+2025-06-12 04:11:11.562 [main] INFO  example.AppointmentSystem - Created new appointment Sytem: example.AppointmentSystem@4e26987b
+2025-06-12 04:11:11.564 [main] INFO  example.AppointmentSystem - Registered professional: DR. Smith
+2025-06-12 04:11:11.564 [main] INFO  example.AppointmentSystem - Initialized day 2025-06-13 for professional DR. Smith
+2025-06-12 04:11:11.564 [main] INFO  example.AppointmentSystem - Created new appointment Sytem: example.AppointmentSystem@14993306
+2025-06-12 04:11:11.564 [main] INFO  example.AppointmentSystem - Registered professional: DR. Smith
+2025-06-12 04:11:11.564 [main] INFO  example.AppointmentSystem - Initialized day 2025-06-13 for professional DR. Smith
+2025-06-12 04:11:11.564 [main] INFO  example.AppointmentSystem - Created new appointment Sytem: example.AppointmentSystem@2cd5b19c
+2025-06-12 04:11:11.570 [main] INFO  example.AppointmentSystem - Registered professional: DR. Smith
+2025-06-12 04:11:11.570 [main] INFO  example.AppointmentSystem - Initialized day 2025-06-13 for professional DR. Smith
+2025-06-12 04:11:11.572 [main] INFO  example.AppointmentSystem - Created new appointment Sytem: example.AppointmentSystem@5602e540
+2025-06-12 04:11:11.572 [main] INFO  example.AppointmentSystem - Registered professional: DR. Smith
+2025-06-12 04:11:11.574 [main] INFO  example.AppointmentSystem - Initialized day 2025-06-13 for professional DR. Smith
+2025-06-12 04:11:11.576 [main] INFO  example.AppointmentSystem - Created new appointment Sytem: example.AppointmentSystem@299786b1
+2025-06-12 04:11:11.576 [main] INFO  example.AppointmentSystem - Registered professional: DR. Smith
+2025-06-12 04:11:11.576 [main] INFO  example.AppointmentSystem - Initialized day 2025-06-13 for professional DR. Smith
+2025-06-12 04:11:11.583 [main] INFO  example.AppointmentSystem - Created new appointment Sytem: example.AppointmentSystem@67784537
+2025-06-12 04:11:11.583 [main] INFO  example.AppointmentSystem - Registered professional: DR. Smith
+2025-06-12 04:11:11.583 [main] INFO  example.AppointmentSystem - Initialized day 2025-06-13 for professional DR. Smith
+2025-06-12 04:11:11.585 [main] INFO  example.AppointmentSystem - Created new appointment Sytem: example.AppointmentSystem@49d979c4
+2025-06-12 04:11:11.585 [main] INFO  example.AppointmentSystem - Registered professional: DR. Smith
+2025-06-12 04:11:11.585 [main] INFO  example.AppointmentSystem - Initialized day 2025-06-13 for professional DR. Smith
+2025-06-12 04:11:11.590 [main] INFO  example.AppointmentSystem - Created new appointment Sytem: example.AppointmentSystem@268f0ff3
+2025-06-12 04:11:11.590 [main] INFO  example.AppointmentSystem - Registered professional: DR. Smith
+2025-06-12 04:11:11.590 [main] INFO  example.AppointmentSystem - Initialized day 2025-06-13 for professional DR. Smith
+2025-06-12 04:11:11.590 [main] INFO  example.AppointmentSystem - Created new appointment Sytem: example.AppointmentSystem@16e5344c
+2025-06-12 04:11:11.590 [main] INFO  example.AppointmentSystem - Registered professional: DR. Smith
+2025-06-12 04:11:11.590 [main] INFO  example.AppointmentSystem - Initialized day 2025-06-13 for professional DR. Smith
+2025-06-12 04:11:11.594 [main] INFO  example.AppointmentSystem - Created new appointment Sytem: example.AppointmentSystem@55746340
+2025-06-12 04:11:11.594 [main] INFO  example.AppointmentSystem - Registered professional: DR. Smith
+2025-06-12 04:11:11.594 [main] INFO  example.AppointmentSystem - Initialized day 2025-06-13 for professional DR. Smith
+2025-06-12 04:11:11.594 [main] INFO  example.AppointmentSystem - Created new appointment Sytem: example.AppointmentSystem@2bc2e022
+2025-06-12 04:11:11.594 [main] INFO  example.AppointmentSystem - Registered professional: DR. Smith
+2025-06-12 04:11:11.594 [main] INFO  example.AppointmentSystem - Initialized day 2025-06-13 for professional DR. Smith
+2025-06-12 04:11:11.594 [main] INFO  example.AppointmentSystem - Created new appointment Sytem: example.AppointmentSystem@3d7b3b18
+2025-06-12 04:11:11.601 [main] INFO  example.AppointmentSystem - Registered professional: DR. Smith
+2025-06-12 04:11:11.601 [main] INFO  example.AppointmentSystem - Initialized day 2025-06-13 for professional DR. Smith
+2025-06-12 04:11:11.604 [main] INFO  example.AppointmentSystem - Created new appointment Sytem: example.AppointmentSystem@773c7147
+2025-06-12 04:11:11.604 [main] INFO  example.AppointmentSystem - Registered professional: DR. Smith
+2025-06-12 04:11:11.604 [main] INFO  example.AppointmentSystem - Initialized day 2025-06-13 for professional DR. Smith

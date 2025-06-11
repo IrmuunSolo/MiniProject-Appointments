@@ -6,16 +6,41 @@
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </Console>
         
-        <!-- File Appender -->
-        <File name="File" fileName="logs/appointments.log" append="true">
+        <!-- AppointmentSystem классын лог файл -->
+        <File name="AppointmentSystemFile" fileName="logs/appointment-system.log" append="true">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </File>
+        
+        <!-- Appointment классын лог файл -->
+        <File name="AppointmentFile" fileName="logs/appointment.log" append="true">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </File>
+        
+        <!-- Service классын лог файл -->
+        <File name="ServiceFile" fileName="logs/service.log" append="true">
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </File>
     </Appenders>
     
     <Loggers>
+        <!-- AppointmentSystem классын тусгай логгер -->
+        <Logger name="example.AppointmentSystem" level="info" additivity="false">
+            <AppenderRef ref="AppointmentSystemFile"/>
+        </Logger>
+        
+        <!-- Appointment классын тусгай логгер -->
+        <Logger name="example.Appointment" level="info" additivity="false">
+            <AppenderRef ref="AppointmentFile"/>
+        </Logger>
+        
+        <!-- Professional классын тусгай логгер -->
+        <Logger name="example.Service" level="info" additivity="false">
+            <AppenderRef ref="ServiceFile"/>
+        </Logger>
+
+        <!-- Бусад бүх лог -->
         <Root level="info">
             <AppenderRef ref="Console"/>
-            <AppenderRef ref="File"/>
         </Root>
     </Loggers>
 </Configuration>
